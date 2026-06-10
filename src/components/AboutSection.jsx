@@ -103,10 +103,10 @@ function WindCanvas() {
 export default function AboutSection() {
     const timeline = [
         { year: '2015', title: 'Diploma in Hardware Eng.', position: 'top' },
-        { year: '2018', title: 'G.C.E O/L - Got 6A ,3B Dambadenya National Collage', position: 'bottom' },
-        { year: '2022', title: 'G.C.E A/L - Got 1A ,2B Dambadenya National Collage', position: 'top' },
+        { year: '2018', title: 'G.C.E O/L - Got 6A ,3B Dambadenya National College', position: 'bottom' },
+        { year: '2022', title: 'G.C.E A/L - Got 1A ,2B Dambadenya National College', position: 'top' },
         { year: '2023', title: 'Diploma in IT - E Soft Metro College', position: 'bottom' },
-        { year: '2024', title: 'BSc(Hons) IT - Reading University of Moratuwa', position: 'top' },
+        { year: '2024', title: 'BSc(Hons) IT - (Reading) University of Moratuwa', position: 'top' },
     ];
 
     return (

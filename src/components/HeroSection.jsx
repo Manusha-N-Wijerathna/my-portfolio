@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect ,useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Download, ArrowRight, Target } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 import Image from 'next/image';
@@ -123,7 +123,6 @@ export default function HeroSection() {
 
     // Type "Manusha" first
     useEffect(() => {
-
         if (nameIndex < FULL_NAME.length) {
             const t = setTimeout(() => {
                 setName((prev) => prev + FULL_NAME[nameIndex]);
@@ -135,13 +134,27 @@ export default function HeroSection() {
         }
     }, [nameIndex]);
 
-    // Type "Nuwan Wijerathna" only after "Manusha" is done
+    // Type "Nuwan Wijerathna" after "Manusha" is done
     useEffect(() => {
         if (nameDone && subtitleIndex < FULL_SUBTITLE.length) {
             const t = setTimeout(() => {
                 setSubtitle((prev) => prev + FULL_SUBTITLE[subtitleIndex]);
                 setSubtitleIndex((prev) => prev + 1);
             }, 80);
+            return () => clearTimeout(t);
+        }
+    }, [nameDone, subtitleIndex]);
+
+    // Repeat animation every 5 seconds after both finish
+    useEffect(() => {
+        if (nameDone && subtitleIndex === FULL_SUBTITLE.length) {
+            const t = setTimeout(() => {
+                setName('');
+                setSubtitle('');
+                setNameIndex(0);
+                setSubtitleIndex(0);
+                setNameDone(false);
+            }, 3000);
             return () => clearTimeout(t);
         }
     }, [nameDone, subtitleIndex]);
