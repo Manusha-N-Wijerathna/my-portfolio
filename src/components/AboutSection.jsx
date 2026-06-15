@@ -160,7 +160,7 @@ export default function AboutSection() {
                     position: 'relative',
                 }}>
                     <Image
-                        src="/profile.jpg"
+                        src="/profile_02.jpg"
                         alt="Manusha Nuwan"
                         fill
                         style={{ objectFit: 'cover' }}
