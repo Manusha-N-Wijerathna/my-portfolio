@@ -1,10 +1,11 @@
 'use client';
 
-import { Home, User, FolderOpen, Send } from 'lucide-react';
+import { Home, User, Layers, FolderOpen, Send } from 'lucide-react';
 
 const navItems = [
     { icon: Home, href: '#hero' },
     { icon: User, href: '#about' },
+    { icon: Layers, href: '#skills' },
     { icon: FolderOpen, href: '#projects' },
     { icon: Send, href: '#contact' },
 ];
