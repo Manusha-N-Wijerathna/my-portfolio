@@ -294,7 +294,7 @@ export default function HeroSection() {
                     position: 'relative',
                 }}>
                     <Image
-                        src="/profile.jpg"
+                        src="/profile_hero.jpg"
                         alt="Manusha Nuwan"
                         fill
                         style={{ objectFit: 'cover' }}
