@@ -248,7 +248,7 @@ export default function HeroSection() {
 
                     {/* Buttons */}
                     <div style={{ display: 'flex', gap: '16px' }}>
-                        <a href="/cv.pdf" download style={{
+                        <a href="https://drive.google.com/file/d/15MJoIObedXG9_xFbGyzakUAvZoqiIw1M/view?usp=sharing" download style={{
                             display: 'flex', alignItems: 'center', gap: '8px',
                             padding: '12px 24px',
                             background: 'var(--accent-purple)',
@@ -258,6 +258,7 @@ export default function HeroSection() {
                             fontWeight: '600',
                             fontSize: '14px',
                             transition: 'opacity 0.2s',
+                            target: '_blank',
                         }}
                             onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
                             onMouseLeave={e => e.currentTarget.style.opacity = '1'}
