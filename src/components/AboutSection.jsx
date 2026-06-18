@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 function WindCanvas() {
@@ -101,6 +101,16 @@ function WindCanvas() {
 }
 
 export default function AboutSection() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e) => setIsMobile(e.matches);
+        setIsMobile(mq.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
     const timeline = [
         { year: '2015', title: 'Diploma in Hardware Eng.', position: 'top' },
         { year: '2018', title: 'G.C.E O/L - Got 6A ,3B Dambadenya National College', position: 'bottom' },
@@ -113,7 +123,7 @@ export default function AboutSection() {
         <section id="about" style={{
             minHeight: '100vh',
             background: 'var(--bg-secondary)',
-            padding: '80px 80px',
+            padding: isMobile ? '60px 20px' : '80px 80px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -131,7 +141,7 @@ export default function AboutSection() {
                 borderRadius: '20px',
                 fontWeight: '600',
                 fontSize: '14px',
-                marginBottom: '60px',
+                marginBottom: isMobile ? '36px' : '60px',
                 position: 'relative',
                 zIndex: 1,
             }}>
@@ -143,16 +153,17 @@ export default function AboutSection() {
                 maxWidth: '1000px',
                 width: '100%',
                 display: 'flex',
-                gap: '48px',
-                alignItems: 'flex-start',
-                marginBottom: '80px',
+                gap: isMobile ? '24px' : '48px',
+                alignItems: isMobile ? 'center' : 'flex-start',
+                marginBottom: isMobile ? '48px' : '80px',
                 position: 'relative',
                 zIndex: 1,
+                flexDirection: isMobile ? 'column' : 'row',
             }}>
                 {/* Photo */}
                 <div style={{
-                    width: '220px',
-                    height: '260px',
+                    width: isMobile ? '160px' : '220px',
+                    height: isMobile ? '200px' : '260px',
                     borderRadius: '12px',
                     overflow: 'hidden',
                     border: '2px solid var(--border-color)',
@@ -168,11 +179,19 @@ export default function AboutSection() {
                 </div>
 
                 {/* Text */}
-                <div>
-                    <h2 style={{ fontSize: '36px', fontWeight: '700', marginBottom: '20px' }}>
+                <div style={{ textAlign: isMobile ? 'center' : 'left' }}>
+                    <h2 style={{
+                        fontSize: isMobile ? '28px' : '36px',
+                        fontWeight: '700',
+                        marginBottom: '20px',
+                    }}>
                         Who am I ?
                     </h2>
-                    <p style={{ color: 'var(--text-muted)', lineHeight: '1.9', fontSize: '15px' }}>
+                    <p style={{
+                        color: 'var(--text-muted)',
+                        lineHeight: '1.9',
+                        fontSize: isMobile ? '13px' : '15px',
+                    }}>
                         My name is Manusha Nuwan.<br />
                         I am a IT undergraduate student at Faculty of IT University of Moratuwa and an aspiring Data Scientist, where I am learning the
                         latest AI technologies and gathering valuable career advice.
@@ -182,62 +201,111 @@ export default function AboutSection() {
             </div>
 
             {/* Timeline */}
-            <div style={{
-                maxWidth: '1000px',
-                width: '100%',
-                position: 'relative',
-                padding: '40px 0',
-                zIndex: 1,
-            }}>
-                {/* Line */}
+            {isMobile ? (
+                /* ── Mobile: Vertical Timeline ── */
                 <div style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: 0,
-                    right: 0,
-                    height: '4px',
-                    background: 'var(--border-color)',
-                    transform: 'translateY(-50%)',
-                }} />
+                    maxWidth: '400px',
+                    width: '100%',
+                    position: 'relative',
+                    paddingLeft: '28px',
+                    zIndex: 1,
+                }}>
+                    {/* Vertical line */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: '8px',
+                        width: '3px',
+                        background: 'var(--border-color)',
+                    }} />
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
-                    {timeline.map((item) => (
+                    {timeline.map((item, i) => (
                         <div key={item.year} style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
                             position: 'relative',
+                            marginBottom: i < timeline.length - 1 ? '28px' : 0,
+                            paddingLeft: '16px',
                         }}>
-                            {item.position === 'top' && (
-                                <div style={{ textAlign: 'center', marginBottom: '12px', maxWidth: '120px' }}>
-                                    <div style={{ color: 'white', fontWeight: '700', fontSize: '13px' }}>{item.year}</div>
-                                    <div style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>{item.title}</div>
-                                </div>
-                            )}
-                            {item.position === 'bottom' && <div style={{ height: '60px' }} />}
-
-                            {/* Dot */}
+                            {/* Dot on the line */}
                             <div style={{
+                                position: 'absolute',
+                                left: '-24px',
+                                top: '4px',
                                 width: '12px',
                                 height: '12px',
                                 borderRadius: '50%',
                                 background: 'var(--accent-purple-bright)',
                                 border: '2px solid white',
-                                position: 'relative',
                                 zIndex: 1,
                             }} />
-
-                            {item.position === 'bottom' && (
-                                <div style={{ textAlign: 'center', marginTop: '12px', maxWidth: '120px' }}>
-                                    <div style={{ color: 'white', fontWeight: '700', fontSize: '13px' }}>{item.year}</div>
-                                    <div style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>{item.title}</div>
-                                </div>
-                            )}
-                            {item.position === 'top' && <div style={{ height: '60px' }} />}
+                            <div style={{ color: 'white', fontWeight: '700', fontSize: '14px', marginBottom: '4px' }}>
+                                {item.year}
+                            </div>
+                            <div style={{ color: 'var(--text-muted)', fontSize: '12px', lineHeight: '1.5' }}>
+                                {item.title}
+                            </div>
                         </div>
                     ))}
                 </div>
-            </div>
+            ) : (
+                /* ── Desktop: Horizontal Timeline ── */
+                <div style={{
+                    maxWidth: '1000px',
+                    width: '100%',
+                    position: 'relative',
+                    padding: '40px 0',
+                    zIndex: 1,
+                }}>
+                    {/* Line */}
+                    <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: 0,
+                        right: 0,
+                        height: '4px',
+                        background: 'var(--border-color)',
+                        transform: 'translateY(-50%)',
+                    }} />
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
+                        {timeline.map((item) => (
+                            <div key={item.year} style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                position: 'relative',
+                            }}>
+                                {item.position === 'top' && (
+                                    <div style={{ textAlign: 'center', marginBottom: '12px', maxWidth: '120px' }}>
+                                        <div style={{ color: 'white', fontWeight: '700', fontSize: '13px' }}>{item.year}</div>
+                                        <div style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>{item.title}</div>
+                                    </div>
+                                )}
+                                {item.position === 'bottom' && <div style={{ height: '60px' }} />}
+
+                                {/* Dot */}
+                                <div style={{
+                                    width: '12px',
+                                    height: '12px',
+                                    borderRadius: '50%',
+                                    background: 'var(--accent-purple-bright)',
+                                    border: '2px solid white',
+                                    position: 'relative',
+                                    zIndex: 1,
+                                }} />
+
+                                {item.position === 'bottom' && (
+                                    <div style={{ textAlign: 'center', marginTop: '12px', maxWidth: '120px' }}>
+                                        <div style={{ color: 'white', fontWeight: '700', fontSize: '13px' }}>{item.year}</div>
+                                        <div style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>{item.title}</div>
+                                    </div>
+                                )}
+                                {item.position === 'top' && <div style={{ height: '60px' }} />}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

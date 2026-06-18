@@ -119,7 +119,15 @@ export default function HeroSection() {
     const [subtitleIndex, setSubtitleIndex] = useState(0);
     const [showCursor, setShowCursor] = useState(true);
     const [nameDone, setNameDone] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e) => setIsMobile(e.matches);
+        setIsMobile(mq.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
 
     // Type "Manusha" first
     useEffect(() => {
@@ -171,16 +179,19 @@ export default function HeroSection() {
             background: 'linear-gradient(135deg, #020818 0%, #0a0f2e 50%, #0d1235 100%)',
             display: 'flex',
             alignItems: 'center',
-            padding: '0 80px',
+            padding: isMobile ? '80px 20px 40px' : '0 80px',
+            position: 'relative',
+            overflow: 'hidden',
         }}>
             <div style={{
                 maxWidth: '1100px',
                 margin: '0 auto',
                 width: '100%',
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: isMobile ? 'center' : 'center',
                 justifyContent: 'space-between',
-                gap: '40px',
+                gap: isMobile ? '32px' : '40px',
+                flexDirection: isMobile ? 'column' : 'row',
             }}>
 
                 {/* Meteor shower background */}
@@ -199,11 +210,22 @@ export default function HeroSection() {
                 }}></div>
 
                 {/* Left — Text */}
-                <div style={{ flex: 1 }}>
-                    <p style={{ color: 'var(--text-muted)', marginBottom: '8px', fontSize: '16px' }}>
+                <div style={{
+                    flex: 1,
+                    textAlign: isMobile ? 'center' : 'left',
+                    position: 'relative',
+                    zIndex: 1,
+                    order: isMobile ? 2 : 1,
+                }}>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '8px', fontSize: isMobile ? '14px' : '16px' }}>
                         Hi, I'm
                     </p>
-                    <h1 style={{ fontSize: '64px', fontWeight: '800', lineHeight: 1.1, marginBottom: '4px' }}>
+                    <h1 style={{
+                        fontSize: isMobile ? '40px' : '64px',
+                        fontWeight: '800',
+                        lineHeight: 1.1,
+                        marginBottom: '4px',
+                    }}>
                         <span style={{ color: 'var(--accent-purple-bright)' }}>
                             {name}
                         </span>
@@ -213,20 +235,38 @@ export default function HeroSection() {
                         )}
                     </h1>
 
-                    <h2 style={{ fontSize: '28px', fontWeight: '600', marginBottom: '20px', color: 'white', minHeight: '40px' }}>
+                    <h2 style={{
+                        fontSize: isMobile ? '20px' : '28px',
+                        fontWeight: '600',
+                        marginBottom: '20px',
+                        color: 'white',
+                        minHeight: isMobile ? '30px' : '40px',
+                    }}>
                         {subtitle}
                         {nameDone && (
                             <span style={{ opacity: showCursor ? 1 : 0, color: 'var(--accent-purple-bright)', fontWeight: '300', marginLeft: '2px' }}>|</span>
                         )}
                     </h2>
 
-                    <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.7', maxWidth: '420px', marginBottom: '28px' }}>
+                    <p style={{
+                        color: 'var(--text-muted)',
+                        fontSize: isMobile ? '13px' : '15px',
+                        lineHeight: '1.7',
+                        maxWidth: isMobile ? '100%' : '420px',
+                        marginBottom: '28px',
+                        margin: isMobile ? '0 auto 28px' : '0 0 28px',
+                    }}>
                         Freelance UI/UX Designer &amp; Frontend Developer.
                         I design and build digital products that people love to use — fast, clean, and accessible.
                     </p>
 
                     {/* Social Icons */}
-                    <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
+                    <div style={{
+                        display: 'flex',
+                        gap: '16px',
+                        marginBottom: '32px',
+                        justifyContent: isMobile ? 'center' : 'flex-start',
+                    }}>
                         {[
                             { icon: FaFacebook, href: 'https://www.facebook.com/share/1H1GNvRibD/' },
                             { icon: FaInstagram, href: 'https://www.instagram.com/manusha_nuwan?igsh=MWQxaHRzN2p6a3N3MA==' },
@@ -247,16 +287,21 @@ export default function HeroSection() {
                     </div>
 
                     {/* Buttons */}
-                    <div style={{ display: 'flex', gap: '16px' }}>
+                    <div style={{
+                        display: 'flex',
+                        gap: isMobile ? '12px' : '16px',
+                        justifyContent: isMobile ? 'center' : 'flex-start',
+                        flexWrap: 'wrap',
+                    }}>
                         <a href="https://drive.google.com/file/d/15MJoIObedXG9_xFbGyzakUAvZoqiIw1M/view?usp=sharing" download style={{
                             display: 'flex', alignItems: 'center', gap: '8px',
-                            padding: '12px 24px',
+                            padding: isMobile ? '10px 20px' : '12px 24px',
                             background: 'var(--accent-purple)',
                             color: 'white',
                             borderRadius: '8px',
                             textDecoration: 'none',
                             fontWeight: '600',
-                            fontSize: '14px',
+                            fontSize: isMobile ? '13px' : '14px',
                             transition: 'opacity 0.2s',
                             target: '_blank',
                         }}
@@ -267,13 +312,13 @@ export default function HeroSection() {
                         </a>
                         <a href="#projects" style={{
                             display: 'flex', alignItems: 'center', gap: '8px',
-                            padding: '12px 24px',
+                            padding: isMobile ? '10px 20px' : '12px 24px',
                             border: '2px solid var(--accent-purple)',
                             color: 'white',
                             borderRadius: '8px',
                             textDecoration: 'none',
                             fontWeight: '600',
-                            fontSize: '14px',
+                            fontSize: isMobile ? '13px' : '14px',
                             transition: 'background 0.2s',
                         }}
                             onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-purple)'}
@@ -286,13 +331,15 @@ export default function HeroSection() {
 
                 {/* Right — Photo */}
                 <div style={{
-                    width: '280px',
-                    height: '320px',
+                    width: isMobile ? '200px' : '280px',
+                    height: isMobile ? '230px' : '320px',
                     borderRadius: '16px',
                     overflow: 'hidden',
                     border: '3px solid var(--border-color)',
                     flexShrink: 0,
                     position: 'relative',
+                    zIndex: 1,
+                    order: isMobile ? 1 : 2,
                 }}>
                     <Image
                         src="/profile_hero.jpg"
