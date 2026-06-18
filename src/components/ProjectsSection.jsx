@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from 'react';
+
 const projects = [
     { id: 1, title: 'Project Name', image: null },
     { id: 2, title: 'Project Name', image: null },
@@ -10,11 +12,36 @@ const projects = [
 ];
 
 export default function ProjectsSection() {
+    const [isMobile, setIsMobile] = useState(false);
+    const [isTablet, setIsTablet] = useState(false);
+
+    useEffect(() => {
+        const mqMobile = window.matchMedia('(max-width: 480px)');
+        const mqTablet = window.matchMedia('(min-width: 481px) and (max-width: 768px)');
+        const handler = () => {
+            setIsMobile(mqMobile.matches);
+            setIsTablet(mqTablet.matches);
+        };
+        handler();
+        mqMobile.addEventListener('change', handler);
+        mqTablet.addEventListener('change', handler);
+        return () => {
+            mqMobile.removeEventListener('change', handler);
+            mqTablet.removeEventListener('change', handler);
+        };
+    }, []);
+
+    const getGridColumns = () => {
+        if (isMobile) return '1fr';
+        if (isTablet) return 'repeat(2, 1fr)';
+        return 'repeat(3, 1fr)';
+    };
+
     return (
         <section id="projects" style={{
             minHeight: '100vh',
             background: 'var(--bg-primary)',
-            padding: '80px 80px',
+            padding: isMobile ? '60px 20px' : isTablet ? '60px 24px' : '80px 80px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -27,7 +54,7 @@ export default function ProjectsSection() {
                 borderRadius: '20px',
                 fontWeight: '600',
                 fontSize: '14px',
-                marginBottom: '60px',
+                marginBottom: isMobile ? '36px' : '60px',
             }}>
                 Projects
             </div>
@@ -37,8 +64,8 @@ export default function ProjectsSection() {
                 maxWidth: '1000px',
                 width: '100%',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '24px',
+                gridTemplateColumns: getGridColumns(),
+                gap: isMobile ? '16px' : '24px',
             }}>
                 {projects.map((project) => (
                     <div
@@ -51,7 +78,7 @@ export default function ProjectsSection() {
                             cursor: 'pointer',
                             transition: 'transform 0.2s, border-color 0.2s',
                             position: 'relative',
-                            height: '180px',
+                            height: isMobile ? '150px' : '180px',
                         }}
                         onMouseEnter={e => {
                             e.currentTarget.style.transform = 'translateY(-4px)';
@@ -71,7 +98,7 @@ export default function ProjectsSection() {
                             alignItems: 'flex-end',
                             padding: '16px',
                         }}>
-                            <span style={{ fontWeight: '700', fontSize: '15px', color: 'white' }}>
+                            <span style={{ fontWeight: '700', fontSize: isMobile ? '14px' : '15px', color: 'white' }}>
                                 {project.title}
                             </span>
                         </div>

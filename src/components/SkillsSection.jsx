@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import {
     Code, Server, Database, Brain, Wrench, Smartphone, Cpu
 } from 'lucide-react';
@@ -44,11 +45,21 @@ const skillCategories = [
 ];
 
 export default function SkillsSection() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e) => setIsMobile(e.matches);
+        setIsMobile(mq.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
     return (
         <section id="skills" style={{
             minHeight: '100vh',
             background: 'var(--bg-primary)',
-            padding: '80px 80px',
+            padding: isMobile ? '60px 20px' : '80px 80px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -67,9 +78,9 @@ export default function SkillsSection() {
             </div>
 
             <h2 style={{
-                fontSize: '40px',
+                fontSize: isMobile ? '28px' : '40px',
                 fontWeight: '800',
-                marginBottom: '60px',
+                marginBottom: isMobile ? '36px' : '60px',
                 textAlign: 'center',
             }}>
                 Skills &amp; Technologies
@@ -80,8 +91,8 @@ export default function SkillsSection() {
                 maxWidth: '1000px',
                 width: '100%',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '24px',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                gap: isMobile ? '16px' : '24px',
             }}>
                 {skillCategories.map((category) => (
                     <div
@@ -90,7 +101,7 @@ export default function SkillsSection() {
                             background: 'var(--bg-card)',
                             border: '1px solid var(--border-color)',
                             borderRadius: '16px',
-                            padding: '28px',
+                            padding: isMobile ? '20px' : '28px',
                             transition: 'border-color 0.2s, transform 0.2s',
                         }}
                         onMouseEnter={(e) => {
@@ -103,24 +114,24 @@ export default function SkillsSection() {
                         }}
                     >
                         {/* Card Title */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: isMobile ? '14px' : '20px' }}>
                             <category.icon size={18} color="var(--accent-purple-bright)" />
-                            <h3 style={{ fontSize: '16px', fontWeight: '700', color: 'white' }}>
+                            <h3 style={{ fontSize: isMobile ? '14px' : '16px', fontWeight: '700', color: 'white' }}>
                                 {category.title}
                             </h3>
                         </div>
 
                         {/* Skill Tags */}
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: isMobile ? '8px' : '10px' }}>
                             {category.skills.map((skill) => (
                                 <span
                                     key={skill}
                                     style={{
-                                        padding: '6px 14px',
+                                        padding: isMobile ? '5px 12px' : '6px 14px',
                                         background: 'rgba(108, 99, 255, 0.1)',
                                         border: '1px solid rgba(108, 99, 255, 0.3)',
                                         borderRadius: '20px',
-                                        fontSize: '13px',
+                                        fontSize: isMobile ? '12px' : '13px',
                                         color: 'var(--text-muted)',
                                         transition: 'all 0.2s',
                                         cursor: 'default',
