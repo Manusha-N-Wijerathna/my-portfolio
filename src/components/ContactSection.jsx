@@ -81,17 +81,17 @@ export default function ContactSection() {
                     }}>
                         <div style={{ flex: 1 }}>
                             <label style={labelStyle}>Name</label>
-                            <input name="name" value={form.name} onChange={handleChange} style={inputStyle} />
+                            <input name="name" value={form.name} onChange={handleChange} style={inputStyle} suppressHydrationWarning />
                         </div>
                         <div style={{ flex: 1 }}>
                             <label style={labelStyle}>Email</label>
-                            <input name="email" value={form.email} onChange={handleChange} style={inputStyle} />
+                            <input name="email" value={form.email} onChange={handleChange} style={inputStyle} suppressHydrationWarning />
                         </div>
                     </div>
 
                     <div style={{ marginBottom: '16px' }}>
                         <label style={labelStyle}>Subject</label>
-                        <input name="subject" value={form.subject} onChange={handleChange} style={inputStyle} />
+                        <input name="subject" value={form.subject} onChange={handleChange} style={inputStyle} suppressHydrationWarning />
                     </div>
 
                     <div style={{ marginBottom: '24px' }}>
@@ -102,6 +102,7 @@ export default function ContactSection() {
                             onChange={handleChange}
                             rows={5}
                             style={{ ...inputStyle, resize: 'vertical' }}
+                            suppressHydrationWarning
                         />
                     </div>
 
@@ -119,6 +120,7 @@ export default function ContactSection() {
                     }}
                         onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
                         onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                        suppressHydrationWarning
                     >
                         Send Message
                     </button>

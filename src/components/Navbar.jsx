@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Home, User, Layers, FolderOpen, Send, Plus } from 'lucide-react';
 
 const navItems = [
@@ -15,6 +15,10 @@ export default function Navbar() {
     const [isMobile, setIsMobile] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
+    const [radius, setRadius] = useState(120);
+
+    const containerRef = useRef(null);
+    const toggleRef = useRef(null);
 
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
@@ -30,6 +34,23 @@ export default function Navbar() {
         return () => mq.removeEventListener('change', handler);
     }, []);
 
+    // Adjust radius based on screen width for mobile responsiveness
+    useEffect(() => {
+        if (!isMobile) return;
+        const handleResize = () => {
+            if (window.innerWidth < 360) {
+                setRadius(85);
+            } else if (window.innerWidth < 400) {
+                setRadius(95);
+            } else {
+                setRadius(110);
+            }
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isMobile]);
+
     const handleClose = useCallback(() => {
         setIsClosing(true);
         setTimeout(() => {
@@ -37,6 +58,38 @@ export default function Navbar() {
             setIsClosing(false);
         }, 300);
     }, []);
+
+    // Handle clicks outside the radial menu to close it
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleOutsideClick = (e) => {
+            if (
+                (containerRef.current && containerRef.current.contains(e.target)) ||
+                (toggleRef.current && toggleRef.current.contains(e.target))
+            ) {
+                return;
+            }
+            handleClose();
+        };
+
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                handleClose();
+            }
+        };
+
+        const timer = setTimeout(() => {
+            document.addEventListener('click', handleOutsideClick);
+            document.addEventListener('keydown', handleEscape);
+        }, 0);
+
+        return () => {
+            clearTimeout(timer);
+            document.removeEventListener('click', handleOutsideClick);
+            document.removeEventListener('keydown', handleEscape);
+        };
+    }, [isOpen, handleClose]);
 
     const handleToggle = useCallback(() => {
         if (isOpen) {
@@ -55,6 +108,21 @@ export default function Navbar() {
             if (target) target.scrollIntoView({ behavior: 'smooth' });
         }, 150);
     }, [handleClose]);
+
+    // Calculate (x, y) coordinates for fanning items from 0 deg (up) to 90 deg (left)
+    const getRadialCoords = (index, total) => {
+        const startAngle = 0; // Directly up
+        const endAngle = 90;  // Directly left
+        const angle = total > 1
+            ? startAngle + ((endAngle - startAngle) / (total - 1)) * index
+            : startAngle;
+
+        const angleRad = (angle * Math.PI) / 180;
+        const x = -radius * Math.sin(angleRad);
+        const y = -radius * Math.cos(angleRad);
+
+        return { x: Math.round(x), y: Math.round(y) };
+    };
 
     // ── Desktop Sidebar ──
     if (!isMobile) {
@@ -106,197 +174,126 @@ export default function Navbar() {
                 ))}
             </nav>
         );
-    }
-
-    // ── Mobile: Circle Toggle + Expanded Menu ──
+    }    // ── Mobile: Radial Floating Menu ──
     return (
         <>
             {/* Scoped CSS animations & classes */}
             <style dangerouslySetInnerHTML={{ __html: `
                 @keyframes pulse-glow {
                     0%, 100% {
-                        box-shadow: 0 0 12px rgba(108, 99, 255, 0.4), 0 0 24px rgba(108, 99, 255, 0.15);
+                        box-shadow: 0 0 10px rgba(108, 99, 255, 0.4), 0 0 20px rgba(108, 99, 255, 0.15);
                     }
                     50% {
-                        box-shadow: 0 0 20px rgba(108, 99, 255, 0.7), 0 0 40px rgba(108, 99, 255, 0.3);
+                        box-shadow: 0 0 18px rgba(108, 99, 255, 0.7), 0 0 35px rgba(108, 99, 255, 0.3);
                     }
-                }
-                @keyframes circle-pop-in {
-                    0% {
-                        transform: scale(0);
-                        opacity: 0;
-                    }
-                    60% {
-                        transform: scale(1.15);
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: scale(1);
-                        opacity: 1;
-                    }
-                }
-                @keyframes circle-pop-out {
-                    0% {
-                        transform: scale(1);
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: scale(0);
-                        opacity: 0;
-                    }
-                }
-                @keyframes fade-in {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                @keyframes fade-out {
-                    from { opacity: 1; }
-                    to { opacity: 0; }
                 }
 
-                .mobile-overlay {
+                .nav-radial-container {
                     position: fixed;
-                    inset: 0;
+                    bottom: 28px;
+                    right: 24px;
+                    width: 44px;
+                    height: 44px;
                     z-index: 998;
-                    background: rgba(2, 8, 24, 0.75);
-                    backdrop-filter: blur(12px);
-                    -webkit-backdrop-filter: blur(12px);
-                }
-                .mobile-overlay.opening {
-                    animation: fade-in 0.3s ease forwards;
-                }
-                .mobile-overlay.closing {
-                    animation: fade-out 0.3s ease forwards;
+                    pointer-events: none;
                 }
 
-                .nav-circle-item {
-                    width: 52px;
-                    height: 52px;
+                .nav-radial-item-wrapper {
+                    position: absolute;
+                    top: 3px;
+                    left: 3px;
+                    width: 38px;
+                    height: 38px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    pointer-events: none;
+                    opacity: 0;
+                    transform: translate(0, 0) scale(0);
+                    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+                }
+
+                .nav-radial-item-wrapper.open {
+                    opacity: 1;
+                    transform: translate(var(--x), var(--y)) scale(1);
+                    pointer-events: auto;
+                }
+
+                .nav-radial-button {
+                    width: 38px;
+                    height: 38px;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background: var(--bg-card);
+                    background: rgba(13, 18, 53, 0.95);
                     border: 2px solid var(--accent-purple-bright);
                     color: var(--accent-purple-bright);
                     text-decoration: none;
-                    box-shadow: 0 0 16px rgba(108, 99, 255, 0.3);
-                    opacity: 0;
-                    transform: scale(0);
-                    transition: background 0.2s, color 0.2s;
-                }
-                .nav-circle-item.opening {
-                    animation: circle-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                }
-                .nav-circle-item.closing {
-                    animation: circle-pop-out 0.2s ease forwards;
+                    box-shadow: 0 0 10px rgba(108, 99, 255, 0.25);
+                    transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+                    cursor: pointer;
                 }
 
-                .nav-circle-label {
-                    width: 52px;
-                    text-align: center;
-                    font-size: 10px;
-                    color: var(--text-muted);
-                    font-weight: 500;
-                    opacity: 0;
-                }
-                .nav-circle-label.opening {
-                    animation: fade-in 0.4s ease forwards;
-                }
-                .nav-circle-label.closing {
-                    animation: fade-out 0.2s ease forwards;
+                .nav-radial-button:hover,
+                .nav-radial-button:focus {
+                    background: var(--accent-purple-bright);
+                    color: white;
+                    border-color: white;
+                    box-shadow: 0 0 18px rgba(108, 99, 255, 0.7);
+                    transform: scale(1.08);
+                    outline: none;
                 }
             ` }} />
 
-            {/* Frosted overlay + icon circles at top */}
-            {isOpen && (
-                <div
-                    className={`mobile-overlay ${isClosing ? 'closing' : 'opening'}`}
-                    onClick={handleClose}
-                >
-                    {/* Container for icons & labels */}
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        paddingTop: '80px',
-                        width: '100%',
-                    }} onClick={(e) => e.stopPropagation()}>
-                        
-                        {/* Row for icons */}
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: '16px',
-                            width: '100%',
-                            maxWidth: '400px',
-                            padding: '0 20px',
-                        }}>
-                            {navItems.map(({ icon: Icon, href, label }, index) => (
-                                <a
-                                    key={href}
-                                    href={href}
-                                    onClick={(e) => handleNavClick(e, href)}
-                                    aria-label={label}
-                                    className={`nav-circle-item ${isClosing ? 'closing' : 'opening'}`}
-                                    style={{
-                                        animationDelay: isClosing
-                                            ? `${(navItems.length - 1 - index) * 0.03}s`
-                                            : `${index * 0.06}s`,
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = 'var(--accent-purple-bright)';
-                                        e.currentTarget.style.color = 'white';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = 'var(--bg-card)';
-                                        e.currentTarget.style.color = 'var(--accent-purple-bright)';
-                                    }}
-                                >
-                                    <Icon size={20} />
-                                </a>
-                            ))}
-                        </div>
+            {/* Radial Menu Items */}
+            <div
+                ref={containerRef}
+                className="nav-radial-container"
+            >
+                {navItems.map(({ icon: Icon, href, label }, index) => {
+                    const { x, y } = getRadialCoords(index, navItems.length);
+                    const isItemOpen = isOpen && !isClosing;
 
-                        {/* Row for labels */}
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: '16px',
-                            width: '100%',
-                            maxWidth: '400px',
-                            padding: '0 20px',
-                            marginTop: '8px',
-                        }}>
-                            {navItems.map(({ label, href }, index) => (
-                                <span
-                                    key={`label-${href}`}
-                                    className={`nav-circle-label ${isClosing ? 'closing' : 'opening'}`}
-                                    style={{
-                                        animationDelay: isClosing
-                                            ? `${(navItems.length - 1 - index) * 0.03}s`
-                                            : `${index * 0.06 + 0.15}s`,
-                                    }}
-                                >
-                                    {label}
-                                </span>
-                            ))}
+                    return (
+                        <div
+                            key={href}
+                            className={`nav-radial-item-wrapper ${isItemOpen ? 'open' : ''}`}
+                            style={{
+                                '--x': `${x}px`,
+                                '--y': `${y}px`,
+                                transitionDelay: isItemOpen
+                                    ? `${index * 0.05}s`
+                                    : `${(navItems.length - 1 - index) * 0.03}s`,
+                            }}
+                        >
+                            <a
+                                href={href}
+                                onClick={(e) => handleNavClick(e, href)}
+                                className="nav-radial-button"
+                                aria-label={label}
+                            >
+                                <Icon size={16} />
+                            </a>
                         </div>
-                    </div>
-                </div>
-            )}
+                    );
+                })}
+            </div>
 
-            {/* Floating circle toggle button */}
+            {/* Floating toggle button */}
             <button
+                ref={toggleRef}
                 onClick={handleToggle}
                 aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isOpen}
+                suppressHydrationWarning
                 style={{
                     position: 'fixed',
                     bottom: '28px',
                     right: '24px',
                     zIndex: 999,
-                    width: '52px',
-                    height: '52px',
+                    width: '44px',
+                    height: '44px',
                     borderRadius: '50%',
                     border: '2px solid var(--accent-purple-bright)',
                     background: isOpen
@@ -311,11 +308,11 @@ export default function Navbar() {
                     transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s',
                     transform: isOpen ? 'rotate(135deg)' : 'rotate(0deg)',
                     boxShadow: isOpen
-                        ? '0 0 20px rgba(108, 99, 255, 0.5)'
-                        : '0 0 12px rgba(108, 99, 255, 0.4)',
+                        ? '0 0 16px rgba(108, 99, 255, 0.5)'
+                        : '0 0 10px rgba(108, 99, 255, 0.4)',
                 }}
             >
-                <Plus size={24} strokeWidth={2.5} />
+                <Plus size={20} strokeWidth={2.5} />
             </button>
         </>
     );
