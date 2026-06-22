@@ -8,7 +8,6 @@ import Image from 'next/image';
 
 
 const FULL_NAME = 'Manusha';
-const FULL_SUBTITLE = 'Nuwan Wijerathna';
 
 // Meteor shower canvas
 function MeteorCanvas() {
@@ -116,10 +115,21 @@ export default function HeroSection() {
     const [name, setName] = useState('');
     const [subtitle, setSubtitle] = useState('');
     const [nameIndex, setNameIndex] = useState(0);
-    const [subtitleIndex, setSubtitleIndex] = useState(0);
     const [showCursor, setShowCursor] = useState(true);
     const [nameDone, setNameDone] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+
+    // Typist cycling logic states for Subtitle
+    const [subtitleIndex, setSubtitleIndex] = useState(0);
+    const [wordIndex, setWordIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [typingSpeed, setTypingSpeed] = useState(100);
+
+    const words = [
+        'Nuwan Wijerathna',
+        'Full Stack Developer',
+        'UI/UX Developer'
+    ];
 
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
@@ -143,37 +153,45 @@ export default function HeroSection() {
             }, 100);
             return () => clearTimeout(t);
         } else {
-            const t = setTimeout(() => {
-                setNameDone(true);
-            }, 0);
-            return () => clearTimeout(t);
+            setNameDone(true);
         }
     }, [nameIndex]);
 
-    // Type "Nuwan Wijerathna" after "Manusha" is done
+    // Typist cycling logic for Subtitle
     useEffect(() => {
-        if (nameDone && subtitleIndex < FULL_SUBTITLE.length) {
-            const t = setTimeout(() => {
-                setSubtitle((prev) => prev + FULL_SUBTITLE[subtitleIndex]);
-                setSubtitleIndex((prev) => prev + 1);
-            }, 80);
-            return () => clearTimeout(t);
-        }
-    }, [nameDone, subtitleIndex]);
+        if (!nameDone) return;
 
-    // Repeat animation every 5 seconds after both finish
-    useEffect(() => {
-        if (nameDone && subtitleIndex === FULL_SUBTITLE.length) {
-            const t = setTimeout(() => {
-                setName('');
-                setSubtitle('');
-                setNameIndex(0);
-                setSubtitleIndex(0);
-                setNameDone(false);
-            }, 3000);
-            return () => clearTimeout(t);
-        }
-    }, [nameDone, subtitleIndex]);
+        const currentWord = words[wordIndex];
+        
+        const handleType = () => {
+            if (!isDeleting) {
+                // Typing
+                setSubtitle(currentWord.substring(0, subtitleIndex + 1));
+                setSubtitleIndex((prev) => prev + 1);
+                setTypingSpeed(80);
+
+                if (subtitleIndex + 1 === currentWord.length) {
+                    // Word complete, pause before deleting
+                    setTypingSpeed(2500); // hold for 2.5 seconds
+                    setIsDeleting(true);
+                }
+            } else {
+                // Deleting
+                setSubtitle(currentWord.substring(0, subtitleIndex - 1));
+                setSubtitleIndex((prev) => prev - 1);
+                setTypingSpeed(45);
+
+                if (subtitleIndex - 1 === 0) {
+                    setIsDeleting(false);
+                    setWordIndex((prev) => (prev + 1) % words.length);
+                    setTypingSpeed(200); // pause before next word
+                }
+            }
+        };
+
+        const timer = setTimeout(handleType, typingSpeed);
+        return () => clearTimeout(timer);
+    }, [nameDone, subtitleIndex, isDeleting, wordIndex, typingSpeed]);
 
     // Blinking cursor
     useEffect(() => {
@@ -191,6 +209,39 @@ export default function HeroSection() {
             position: 'relative',
             overflow: 'hidden',
         }}>
+            {/* Custom Premium Styles for Hero Photo */}
+            <style dangerouslySetInnerHTML={{ __html: `
+                .hero-image-wrapper {
+                    position: relative;
+                    width: 280px;
+                    height: 320px;
+                    padding: 3.5px;
+                    background: linear-gradient(135deg, rgba(61, 47, 196, 0.4) 0%, rgba(108, 99, 255, 0.4) 100%);
+                    border-radius: 20px;
+                    flex-shrink: 0;
+                    z-index: 10;
+                    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 15px rgba(108, 99, 255, 0.1);
+                }
+                .hero-image-wrapper:hover {
+                    transform: translateY(-8px) scale(1.02);
+                    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-purple-bright) 100%);
+                    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 35px rgba(108, 99, 255, 0.4);
+                }
+                .hero-image-inner {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 17px;
+                    overflow: hidden;
+                    position: relative;
+                }
+                @media (max-width: 768px) {
+                    .hero-image-wrapper {
+                        width: 200px;
+                        height: 230px;
+                    }
+                }
+            ` }} />
             <div style={{
                 maxWidth: '1100px',
                 margin: '0 auto',
@@ -338,25 +389,17 @@ export default function HeroSection() {
                 </div>
 
                 {/* Right — Photo */}
-                <div style={{
-                    width: isMobile ? '200px' : '280px',
-                    height: isMobile ? '230px' : '320px',
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    border: '3px solid var(--border-color)',
-                    flexShrink: 0,
-                    position: 'relative',
-                    zIndex: 1,
-                    order: isMobile ? 1 : 2,
-                }}>
-                    <Image
-                        src="/profile_hero.jpg"
-                        alt="Manusha Nuwan"
-                        fill
-                        sizes="(max-width: 768px) 200px, 280px"
-                        style={{ objectFit: 'cover' }}
-                        priority
-                    />
+                <div className="hero-image-wrapper" style={{ order: isMobile ? 1 : 2 }}>
+                    <div className="hero-image-inner">
+                        <Image
+                            src="/profile_hero.jpg"
+                            alt="Manusha Nuwan"
+                            fill
+                            sizes="(max-width: 768px) 200px, 280px"
+                            style={{ objectFit: 'cover' }}
+                            priority
+                        />
+                    </div>
                 </div>
             </div>
         </section>

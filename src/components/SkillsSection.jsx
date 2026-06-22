@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import {
     Code, Server, Database, Brain, Wrench, Smartphone, Cpu
 } from 'lucide-react';
+import SpaceDustCanvas from './SpaceDustCanvas';
 
 const skillCategories = [
     {
@@ -68,7 +69,12 @@ export default function SkillsSection() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            position: 'relative',
+            overflow: 'hidden',
         }}>
+
+            {/* Animated background */}
+            <SpaceDustCanvas />
 
             {/* Label */}
             <div style={{
