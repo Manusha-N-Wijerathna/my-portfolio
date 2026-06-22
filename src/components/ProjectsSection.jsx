@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { projects } from '@/data/projects';
+import SpaceDustCanvas from './SpaceDustCanvas';
 
 export default function ProjectsSection() {
   const [isMobile, setIsMobile] = useState(false);
@@ -39,7 +40,12 @@ export default function ProjectsSection() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
+
+      {/* Animated background */}
+      <SpaceDustCanvas />
 
       {/* Label */}
       <div style={{
