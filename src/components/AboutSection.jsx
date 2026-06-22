@@ -106,9 +106,14 @@ export default function AboutSection() {
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
         const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
+        const t = setTimeout(() => {
+            setIsMobile(mq.matches);
+        }, 0);
         mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
+        return () => {
+            clearTimeout(t);
+            mq.removeEventListener('change', handler);
+        };
     }, []);
 
     const timeline = [
@@ -174,6 +179,7 @@ export default function AboutSection() {
                         src="/profile_about.jpg"
                         alt="Manusha Nuwan"
                         fill
+                        sizes="(max-width: 768px) 160px, 220px"
                         style={{ objectFit: 'cover' }}
                     />
                 </div>

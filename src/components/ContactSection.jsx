@@ -11,9 +11,14 @@ export default function ContactSection() {
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
         const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
+        const t = setTimeout(() => {
+            setIsMobile(mq.matches);
+        }, 0);
         mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
+        return () => {
+            clearTimeout(t);
+            mq.removeEventListener('change', handler);
+        };
     }, []);
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -143,7 +148,7 @@ export default function ContactSection() {
                         lineHeight: '1.2',
                         marginBottom: '32px',
                     }}>
-                        Let's work<br />together
+                        Let&apos;s work<br />together
                     </h3>
 
                         {[

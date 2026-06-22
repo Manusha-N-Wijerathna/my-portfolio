@@ -50,9 +50,14 @@ export default function SkillsSection() {
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
         const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
+        const t = setTimeout(() => {
+            setIsMobile(mq.matches);
+        }, 0);
         mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
+        return () => {
+            clearTimeout(t);
+            mq.removeEventListener('change', handler);
+        };
     }, []);
 
     return (
