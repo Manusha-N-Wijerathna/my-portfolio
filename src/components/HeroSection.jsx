@@ -124,9 +124,14 @@ export default function HeroSection() {
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
         const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
+        const t = setTimeout(() => {
+            setIsMobile(mq.matches);
+        }, 0);
         mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
+        return () => {
+            clearTimeout(t);
+            mq.removeEventListener('change', handler);
+        };
     }, []);
 
     // Type "Manusha" first
@@ -138,7 +143,10 @@ export default function HeroSection() {
             }, 100);
             return () => clearTimeout(t);
         } else {
-            setNameDone(true);
+            const t = setTimeout(() => {
+                setNameDone(true);
+            }, 0);
+            return () => clearTimeout(t);
         }
     }, [nameIndex]);
 
@@ -218,7 +226,7 @@ export default function HeroSection() {
                     order: isMobile ? 2 : 1,
                 }}>
                     <p style={{ color: 'var(--text-muted)', marginBottom: '8px', fontSize: isMobile ? '14px' : '16px' }}>
-                        Hi, I'm
+                        Hi, I&apos;m
                     </p>
                     <h1 style={{
                         fontSize: isMobile ? '40px' : '64px',
@@ -345,6 +353,7 @@ export default function HeroSection() {
                         src="/profile_hero.jpg"
                         alt="Manusha Nuwan"
                         fill
+                        sizes="(max-width: 768px) 200px, 280px"
                         style={{ objectFit: 'cover' }}
                         priority
                     />

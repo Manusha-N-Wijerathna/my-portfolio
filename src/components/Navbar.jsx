@@ -29,9 +29,14 @@ export default function Navbar() {
                 setIsClosing(false);
             }
         };
-        setIsMobile(mq.matches);
+        const t = setTimeout(() => {
+            setIsMobile(mq.matches);
+        }, 0);
         mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
+        return () => {
+            clearTimeout(t);
+            mq.removeEventListener('change', handler);
+        };
     }, []);
 
     // Adjust radius based on screen width for mobile responsiveness
