@@ -1,7 +1,7 @@
 'use client'
 
 
-import { use } from 'react';
+import { use, useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +13,16 @@ export default function ProjectDetailPage({ params }) {
     const { id } = use(params);
     const project = projects.find((p) => p.id === id);
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e) => setIsMobile(e.matches);
+        setIsMobile(mq.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
     if (!project) {
         notFound();
     }
@@ -21,7 +31,7 @@ export default function ProjectDetailPage({ params }) {
         <main style={{
             minHeight: '100vh',
             background: 'var(--bg-primary)',
-            padding: '60px 80px',
+            padding: isMobile ? '40px 16px' : '60px 80px',
         }}>
             <div style={{ maxWidth: '900px', margin: '0 auto' }}>
 
@@ -42,7 +52,7 @@ export default function ProjectDetailPage({ params }) {
                 </Link>
 
                 {/* Title */}
-                <h1 style={{ fontSize: '36px', fontWeight: '800', marginBottom: '24px' }}>
+                <h1 style={{ fontSize: isMobile ? '28px' : '36px', fontWeight: '800', marginBottom: '24px' }}>
                     {project.title}
                 </h1>
 
@@ -60,7 +70,7 @@ export default function ProjectDetailPage({ params }) {
                                 position: 'relative',
                                 width: '100%',
                                 maxWidth: '420px',
-                                height: '260px',
+                                aspectRatio: '16 / 10',
                                 borderRadius: '12px',
                                 overflow: 'hidden',
                                 border: '1px solid var(--border-color)',
