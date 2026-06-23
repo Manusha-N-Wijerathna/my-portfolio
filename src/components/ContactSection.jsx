@@ -41,7 +41,7 @@ export default function ContactSection() {
             console.warn(
                 "Web3Forms access key (NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY) is missing in environment variables. Simulating email submission in development mode."
             );
-            
+
             setTimeout(() => {
                 setStatus('SUCCESS');
                 setForm({ name: '', email: '', subject: '', message: '' });
@@ -98,7 +98,8 @@ export default function ContactSection() {
             <SpaceDustCanvas />
 
             {/* Custom Premium Stylesheet */}
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 .contact-tag {
                     background: linear-gradient(135deg, var(--accent-purple) 0%, #563be8 100%);
                     padding: 8px 28px;
@@ -435,27 +436,27 @@ export default function ContactSection() {
                     {/* Social/Contact Links */}
                     <div style={{ width: '100%' }}>
                         {[
-                            { 
-                                icon: Mail, 
-                                text: 'manushawijerathna02@gmail.com', 
-                                href: 'mailto:manushawijerathna02@gmail.com' 
+                            {
+                                icon: Mail,
+                                text: 'manushawijerathna02@gmail.com',
+                                href: 'mailto:manushawijerathna02@gmail.com'
                             },
-                            { 
-                                icon: FaLinkedin, 
-                                text: 'linkedin.com/in/manusha-nuwan', 
-                                href: 'https://www.linkedin.com/in/manusha-nuwan-b674a62bb?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app' 
+                            {
+                                icon: FaLinkedin,
+                                text: 'linkedin.com/in/manusha-nuwan',
+                                href: 'https://www.linkedin.com/in/manusha-nuwan-b674a62bb?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'
                             },
-                            { 
-                                icon: FaGithub, 
-                                text: 'github.com/Manusha-N-Wijerathna', 
-                                href: 'https://github.com/Manusha-N-Wijerathna' 
+                            {
+                                icon: FaGithub,
+                                text: 'github.com/Manusha-N-Wijerathna',
+                                href: 'https://github.com/Manusha-N-Wijerathna'
                             },
                         ].map(({ icon: Icon, text, href }) => (
-                            <a 
-                                key={text} 
-                                href={href} 
-                                target="_blank" 
-                                rel="noreferrer" 
+                            <a
+                                key={text}
+                                href={href}
+                                target="_blank"
+                                rel="noreferrer"
                                 className="social-link"
                             >
                                 <div className="social-icon-box">
