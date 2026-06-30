@@ -9,5 +9,9 @@ export const ictGallery = [
         image: '/ict-for-future/image02.jpg',
         description: 'We conducted a comprehensive ICT revision session for Grade 11 students, covering Units 01 through 04 in detail. To create a more interactive and enjoyable learning environment, we also organized two engaging educational games during the session. The combination of theory, discussion, and fun activities helped students reinforce their understanding while maintaining their enthusiasm and participation throughout the class.',
     },
-    // 👉 add more entries here later, same shape
+    {
+        id: 'Eheliyagoda Central Collage IoT Seminar',
+        image: '/ict-for-future/image03.png',
+        description: 'Successfully conducted an insightful Internet of Things (IoT) Seminar at Eheliyagoda Central College. The session introduced students to the fundamentals of IoT, real-world applications, smart devices, sensors, and the future of connected technologies. It was a great opportunity to inspire young minds and explore how IoT is transforming industries and everyday life. Thank you to all the students and staff members for their enthusiastic participation and support.',
+    }
 ];
