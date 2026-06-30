@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { GraduationCap, TrendingUp, Sparkles, Compass } from 'lucide-react';
 
 function WindCanvas() {
@@ -19,7 +20,6 @@ function WindCanvas() {
         resize();
         window.addEventListener('resize', resize);
 
-        // Create wind lines
         const lines = Array.from({ length: 25 }, () => createLine(canvas, true));
 
         function createLine(canvas, random = false) {
@@ -30,7 +30,7 @@ function WindCanvas() {
                 speed: Math.random() * 2 + 0.5,
                 opacity: Math.random() * 0.25 + 0.05,
                 width: Math.random() * 1.2 + 0.3,
-                gap: Math.random() * 300 + 100, // delay before reappearing
+                gap: Math.random() * 300 + 100,
             };
         }
 
@@ -47,15 +47,12 @@ function WindCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             lines.forEach((line) => {
-                // Move right to left
                 line.x -= line.speed;
 
-                // Reset when off screen left
                 if (line.x + line.length < 0) {
                     resetLine(line, canvas);
                 }
 
-                // Draw wind line with gradient fade
                 const gradient = ctx.createLinearGradient(
                     line.x, line.y,
                     line.x + line.length, line.y
@@ -122,9 +119,9 @@ export default function AboutSection() {
 
     const highlights = [
         { icon: GraduationCap, label: 'Education', value: 'University of Moratuwa (BSc Hons IT)' },
-        { icon: TrendingUp, label: 'Target', value: 'Aspiring Data Scientis' },
+        { icon: TrendingUp, label: 'Target', value: 'Aspiring Data Scientist' },
         { icon: Sparkles, label: 'Interests', value: 'Web Apps, Problem Solving' },
-        { icon: Compass, label: 'Hobbies', value: 'Teaching to some one ' },
+        { icon: Compass, label: 'Hobbies', value: 'Teaching to students', link: '/ict-for-future' },
     ];
 
     return (
@@ -140,154 +137,154 @@ export default function AboutSection() {
             overflow: 'hidden',
         }}>
 
-            {/* Custom stylesheet for beautiful cards and effects */}
-            <style dangerouslySetInnerHTML={{ __html: `
-                .about-tag {
-                    background: linear-gradient(135deg, var(--accent-purple) 0%, #563be8 100%);
-                    padding: 8px 28px;
-                    border-radius: 20px;
-                    font-weight: 600;
-                    font-size: 14px;
-                    margin-bottom: 40px;
-                    box-shadow: 0 4px 15px rgba(61, 47, 196, 0.3);
-                    color: white;
-                    z-index: 10;
-                    letter-spacing: 0.5px;
-                    position: relative;
-                }
-                .about-card {
-                    max-width: 1000px;
-                    width: 100%;
-                    background: rgba(13, 18, 53, 0.35);
-                    backdrop-filter: blur(16px);
-                    -webkit-backdrop-filter: blur(16px);
-                    border-radius: 20px;
-                    border: 1px solid rgba(30, 42, 94, 0.5);
-                    padding: 40px;
-                    z-index: 10;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                                0 0 40px rgba(108, 99, 255, 0.05),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-                    transition: border-color 0.4s ease, box-shadow 0.4s ease;
-                }
-                .about-card:hover {
-                    border-color: rgba(108, 99, 255, 0.25);
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                                0 0 50px rgba(108, 99, 255, 0.12),
-                                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-                }
-                .profile-img-wrapper {
-                    position: relative;
-                    border-radius: 16px;
-                    overflow: hidden;
-                    border: 2px solid rgba(108, 99, 255, 0.3);
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(108, 99, 255, 0.15);
-                    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-                }
-                .profile-img-wrapper:hover {
-                    transform: scale(1.03) translateY(-4px);
-                    border-color: var(--accent-purple-bright);
-                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 35px rgba(108, 99, 255, 0.35);
-                }
-                .highlight-grid {
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 16px;
-                    margin-top: 28px;
-                }
-                .highlight-card {
-                    background: rgba(6, 10, 32, 0.5);
-                    border: 1px solid rgba(30, 42, 94, 0.7);
-                    border-radius: 12px;
-                    padding: 16px;
-                    transition: all 0.3s ease;
-                }
-                .highlight-card:hover {
-                    border-color: var(--accent-purple-bright);
-                    background: rgba(6, 10, 32, 0.8);
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 20px rgba(108, 99, 255, 0.1);
-                }
-                .timeline-line {
-                    position: absolute;
-                    top: 50%;
-                    left: 0;
-                    right: 0;
-                    height: 3px;
-                    background: linear-gradient(90deg, rgba(61,47,196,0.3) 0%, rgba(108,99,255,0.7) 50%, rgba(61,47,196,0.3) 100%);
-                    transform: translateY(-50%);
-                }
-                .timeline-card-desktop {
-                    background: rgba(13, 18, 53, 0.5);
-                    backdrop-filter: blur(8px);
-                    -webkit-backdrop-filter: blur(8px);
-                    border: 1px solid rgba(30, 42, 94, 0.7);
-                    border-radius: 12px;
-                    padding: 14px 16px;
-                    width: 175px;
-                    position: absolute;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-                }
-                .timeline-node-top {
-                    bottom: 24px;
-                }
-                .timeline-node-bottom {
-                    top: 24px;
-                }
-                .timeline-card-desktop:hover {
-                    border-color: var(--accent-purple-bright);
-                    background: rgba(13, 18, 53, 0.85);
-                    box-shadow: 0 10px 25px rgba(108, 99, 255, 0.2);
-                }
-                .timeline-node-top:hover {
-                    transform: translateX(-50%) translateY(-4px);
-                }
-                .timeline-node-bottom:hover {
-                    transform: translateX(-50%) translateY(4px);
-                }
-                .glow-dot {
-                    width: 14px;
-                    height: 14px;
-                    border-radius: 50%;
-                    background: var(--accent-purple-bright);
-                    border: 2px solid #ffffff;
-                    box-shadow: 0 0 12px var(--accent-purple-bright);
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    position: relative;
-                    z-index: 10;
-                }
-                .glow-dot:hover {
-                    transform: scale(1.3);
-                    box-shadow: 0 0 18px var(--accent-purple-bright), 0 0 25px #ffffff;
-                }
-                .timeline-card-mobile {
-                    background: rgba(13, 18, 53, 0.4);
-                    backdrop-filter: blur(8px);
-                    border: 1px solid rgba(30, 42, 94, 0.7);
-                    border-radius: 12px;
-                    padding: 16px;
-                    transition: all 0.3s ease;
-                    margin-bottom: 20px;
-                }
-                .timeline-card-mobile:hover {
-                    border-color: var(--accent-purple-bright);
-                    background: rgba(13, 18, 53, 0.7);
-                    transform: translateX(4px);
-                }
-                @media (max-width: 768px) {
-                    .highlight-grid {
-                        grid-template-columns: 1fr;
-                        gap: 12px;
-                    }
-                    .about-card {
-                        padding: 24px;
-                    }
-                }
-            ` }} />
+            <style dangerouslySetInnerHTML={{
+                __html: `
+        .about-tag {
+          background: linear-gradient(135deg, var(--accent-purple) 0%, #563be8 100%);
+          padding: 8px 28px;
+          border-radius: 20px;
+          font-weight: 600;
+          font-size: 14px;
+          margin-bottom: 40px;
+          box-shadow: 0 4px 15px rgba(61, 47, 196, 0.3);
+          color: white;
+          z-index: 10;
+          letter-spacing: 0.5px;
+          position: relative;
+        }
+        .about-card {
+          max-width: 1000px;
+          width: 100%;
+          background: rgba(13, 18, 53, 0.35);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-radius: 20px;
+          border: 1px solid rgba(30, 42, 94, 0.5);
+          padding: 40px;
+          z-index: 10;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                      0 0 40px rgba(108, 99, 255, 0.05),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+          transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .about-card:hover {
+          border-color: rgba(108, 99, 255, 0.25);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
+                      0 0 50px rgba(108, 99, 255, 0.12),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .profile-img-wrapper {
+          position: relative;
+          border-radius: 16px;
+          overflow: hidden;
+          border: 2px solid rgba(108, 99, 255, 0.3);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(108, 99, 255, 0.15);
+          transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .profile-img-wrapper:hover {
+          transform: scale(1.03) translateY(-4px);
+          border-color: var(--accent-purple-bright);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 35px rgba(108, 99, 255, 0.35);
+        }
+        .highlight-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          margin-top: 28px;
+        }
+        .highlight-card {
+          background: rgba(6, 10, 32, 0.5);
+          border: 1px solid rgba(30, 42, 94, 0.7);
+          border-radius: 12px;
+          padding: 16px;
+          transition: all 0.3s ease;
+        }
+        .highlight-card:hover {
+          border-color: var(--accent-purple-bright);
+          background: rgba(6, 10, 32, 0.8);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(108, 99, 255, 0.1);
+        }
+        .timeline-line {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, rgba(61,47,196,0.3) 0%, rgba(108,99,255,0.7) 50%, rgba(61,47,196,0.3) 100%);
+          transform: translateY(-50%);
+        }
+        .timeline-card-desktop {
+          background: rgba(13, 18, 53, 0.5);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(30, 42, 94, 0.7);
+          border-radius: 12px;
+          padding: 14px 16px;
+          width: 175px;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .timeline-node-top {
+          bottom: 24px;
+        }
+        .timeline-node-bottom {
+          top: 24px;
+        }
+        .timeline-card-desktop:hover {
+          border-color: var(--accent-purple-bright);
+          background: rgba(13, 18, 53, 0.85);
+          box-shadow: 0 10px 25px rgba(108, 99, 255, 0.2);
+        }
+        .timeline-node-top:hover {
+          transform: translateX(-50%) translateY(-4px);
+        }
+        .timeline-node-bottom:hover {
+          transform: translateX(-50%) translateY(4px);
+        }
+        .glow-dot {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: var(--accent-purple-bright);
+          border: 2px solid #ffffff;
+          box-shadow: 0 0 12px var(--accent-purple-bright);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          z-index: 10;
+        }
+        .glow-dot:hover {
+          transform: scale(1.3);
+          box-shadow: 0 0 18px var(--accent-purple-bright), 0 0 25px #ffffff;
+        }
+        .timeline-card-mobile {
+          background: rgba(13, 18, 53, 0.4);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(30, 42, 94, 0.7);
+          border-radius: 12px;
+          padding: 16px;
+          transition: all 0.3s ease;
+          margin-bottom: 20px;
+        }
+        .timeline-card-mobile:hover {
+          border-color: var(--accent-purple-bright);
+          background: rgba(13, 18, 53, 0.7);
+          transform: translateX(4px);
+        }
+        @media (max-width: 768px) {
+          .highlight-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+          .about-card {
+            padding: 24px;
+          }
+        }
+      ` }} />
 
             {/* Wind animation background */}
             <WindCanvas />
@@ -341,24 +338,33 @@ export default function AboutSection() {
                         }}>
                             My name is <strong>Manusha Nuwan</strong>.<br />
                             I am an IT undergraduate student at the Faculty of Information Technology, University of Moratuwa, and an aspiring Data Scientist. Here, I immerse myself in studying the latest AI algorithms and data methodologies, gathering valuable career insights. Beyond my academic pursuits, I am a passionate IT tutor dedicated to helping students understand complex technology concepts in a simple and practical way. I enjoy mentoring learners in programming, ICT, and problem-solving, empowering them to build confidence and achieve their educational goals.
-
                         </p>
 
                         {/* Highlights Grid */}
                         <div className="highlight-grid">
-                            {highlights.map(({ icon: Icon, label, value }) => (
-                                <div key={label} className="highlight-card">
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                                        <Icon size={16} color="var(--accent-purple-bright)" />
-                                        <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                                            {label}
-                                        </span>
+                            {highlights.map(({ icon: Icon, label, value, link }) => {
+                                const cardInner = (
+                                    <div className="highlight-card" style={{ cursor: link ? 'pointer' : 'default', height: '100%' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                                            <Icon size={16} color="var(--accent-purple-bright)" />
+                                            <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                {label}
+                                            </span>
+                                        </div>
+                                        <div style={{ fontSize: '13.5px', fontWeight: '500', color: 'white', lineHeight: '1.4' }}>
+                                            {value}
+                                        </div>
                                     </div>
-                                    <div style={{ fontSize: '13.5px', fontWeight: '500', color: 'white', lineHeight: '1.4' }}>
-                                        {value}
-                                    </div>
-                                </div>
-                            ))}
+                                );
+
+                                return link ? (
+                                    <Link key={label} href={link} style={{ textDecoration: 'none', display: 'block' }}>
+                                        {cardInner}
+                                    </Link>
+                                ) : (
+                                    <div key={label}>{cardInner}</div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -397,7 +403,7 @@ export default function AboutSection() {
                         background: 'linear-gradient(180deg, rgba(61,47,196,0.3) 0%, rgba(108,99,255,0.7) 50%, rgba(61,47,196,0.3) 100%)',
                     }} />
 
-                    {timeline.map((item, i) => (
+                    {timeline.map((item) => (
                         <div key={item.year} style={{
                             position: 'relative',
                             paddingLeft: '16px',
@@ -408,7 +414,7 @@ export default function AboutSection() {
                                 left: '-24px',
                                 top: '18px',
                             }} />
-                            
+
                             {/* Milestone Card */}
                             <div className="timeline-card-mobile">
                                 <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '15px', marginBottom: '6px' }}>
@@ -440,7 +446,6 @@ export default function AboutSection() {
                     {/* Dynamic flex container for nodes */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', top: '50%', transform: 'translateY(-50%)', padding: '0 20px' }}>
                         {timeline.map((item, index) => {
-                            // Even spacing positioning on the horizontal timeline
                             const leftPercent = `${(index / (timeline.length - 1)) * 100}%`;
                             return (
                                 <div key={item.year} style={{
@@ -453,7 +458,7 @@ export default function AboutSection() {
                                 }}>
                                     {/* Alternating top timeline card */}
                                     {item.position === 'top' && (
-                                        <div 
+                                        <div
                                             className="timeline-card-desktop timeline-node-top"
                                             style={{ '--hover-translate': '-4px' }}
                                         >
@@ -474,7 +479,7 @@ export default function AboutSection() {
 
                                     {/* Alternating bottom timeline card */}
                                     {item.position === 'bottom' && (
-                                        <div 
+                                        <div
                                             className="timeline-card-desktop timeline-node-bottom"
                                             style={{ '--hover-translate': '4px' }}
                                         >
