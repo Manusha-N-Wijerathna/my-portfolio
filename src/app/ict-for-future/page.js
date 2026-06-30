@@ -7,117 +7,71 @@ import SpaceDustCanvas from '@/components/SpaceDustCanvas';
 import { ictGallery } from '@/data/ictForFuture';
 
 export default function IctForFuturePage() {
-    return (
-        <main style={{
-            minHeight: '100vh',
-            background: 'var(--bg-secondary)',
-            padding: '60px 80px',
-            position: 'relative',
-            overflow: 'hidden',
-        }}>
+  return (
+    <main className="min-h-screen bg-[var(--bg-secondary)] px-4 py-12 sm:px-10 md:px-20 md:py-20 relative overflow-hidden flex flex-col items-center justify-center">
+      <SpaceDustCanvas />
 
-            <SpaceDustCanvas />
+      <div className="max-w-[1000px] mx-auto my-auto relative z-10 w-full">
 
-            <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        {/* Back link */}
+        <Link
+          href="/#about"
+          className="inline-flex items-center gap-2 text-[var(--text-muted)] no-underline mb-8 text-sm hover:text-white transition-colors"
+        >
+          <ArrowLeft size={16} /> Back
+        </Link>
 
-                {/* Back link */}
-                <Link
-                    href="/#about"
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        color: 'var(--text-muted)',
-                        textDecoration: 'none',
-                        marginBottom: '32px',
-                        fontSize: '14px',
-                    }}
-                >
-                    <ArrowLeft size={16} /> Back
-                </Link>
+        {/* Title */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-2 text-center text-white tracking-tight">
+          #ict_for_future
+        </h1>
+        <p className="text-center text-[var(--text-muted)] mb-8 text-sm sm:text-base">
+          Grade 6 – A/L ICT Classes
+        </p>
 
-                {/* Title */}
-                <h1 style={{
-                    fontSize: '40px',
-                    fontWeight: '800',
-                    marginBottom: '8px',
-                    textAlign: 'center',
-                    color: 'white',
-                }}>
-                    #ict_for_future
-                </h1>
-                <p style={{
-                    textAlign: 'center',
-                    color: 'var(--text-muted)',
-                    marginBottom: '60px',
-                    fontSize: '16px',
-                }}>
-                    Grade 6 – A/L ICT Classes
+        {/* Spacer to create a big vertical gap */}
+        <div className="h-16 sm:h-24 md:h-8" />
+
+        {/* Polaroid gallery */}
+        <div className="flex flex-col gap-16 md:gap-24 mb-20">
+          {ictGallery.map((item, i) => (
+            <div
+              key={item.id}
+              className={`flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full ${
+                i % 2 === 0 ? '' : 'md:flex-row-reverse'
+              }`}
+            >
+              {/* Tilted image card */}
+              <div
+                className={`relative w-full max-w-[320px] aspect-[320/220] h-auto rounded-lg border-4 border-white shadow-2xl transition-transform duration-300 ${
+                  i % 2 === 0
+                    ? '-rotate-2 md:-rotate-6 hover:rotate-0'
+                    : 'rotate-2 md:rotate-6 hover:rotate-0'
+                } shrink-0`}
+              >
+                <Image
+                  src={item.image}
+                  alt={String(item.id)}
+                  fill
+                  className="object-cover"
+                  priority={i === 0}
+                />
+              </div>
+
+              {/* Description */}
+              <div className="w-full md:max-w-[480px] text-center md:text-left">
+                <h3 className="text-white text-xl sm:text-2xl font-extrabold mb-3 tracking-tight px-6 md:px-0">
+                  {item.id}
+                </h3>
+                <p className="text-[var(--text-muted)] text-sm sm:text-base leading-relaxed px-10 sm:px-12 md:px-0">
+                  {item.description}
                 </p>
-
-                {/* Polaroid gallery */}
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '60px',
-                }}>
-                    {ictGallery.map((item, i) => (
-                        <div
-                            key={item.id}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '40px',
-                                flexDirection: i % 2 === 0 ? 'row' : 'row-reverse',
-                                flexWrap: 'wrap',
-                            }}
-                        >
-                            {/* Tilted image card */}
-                            <div
-                                style={{
-                                    position: 'relative',
-                                    width: '320px',
-                                    height: '220px',
-                                    borderRadius: '8px',
-                                    overflow: 'hidden',
-                                    border: '4px solid white',
-                                    boxShadow: '0 15px 35px rgba(0,0,0,0.5)',
-                                    transform: `rotate(${i % 2 === 0 ? '-6deg' : '6deg'})`,
-                                    flexShrink: 0,
-                                    transition: 'transform 0.3s',
-                                }}
-                            >
-                                <Image
-                                    src={item.image}
-                                    alt={`Image ${String(item.id).padStart(2, '0')}`}
-                                    fill
-                                    style={{ objectFit: 'cover' }}
-                                />
-                            </div>
-
-                            {/* Description */}
-                            <div style={{ flex: 1, minWidth: '260px' }}>
-                                <h3 style={{
-                                    color: 'white',
-                                    fontSize: '18px',
-                                    fontWeight: '700',
-                                    marginBottom: '12px',
-                                }}>
-                                    {String(item.id).padStart(2, '0')}
-                                </h3>
-                                <p style={{
-                                    color: 'var(--text-muted)',
-                                    fontSize: '15px',
-                                    lineHeight: '1.8',
-                                }}>
-                                    {item.description}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
+              </div>
             </div>
-        </main>
-    );
+          ))}
+        </div>
+
+      </div>
+    </main>
+  );
 }
