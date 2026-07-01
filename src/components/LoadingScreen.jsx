@@ -7,6 +7,15 @@ export default function LoadingScreen({ onComplete }) {
     const [progress, setProgress] = useState(0);
     const [isFadingOut, setIsFadingOut] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e) => setIsMobile(e.matches);
+        setIsMobile(mq.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
 
     useEffect(() => {
         let timer;
@@ -47,7 +56,7 @@ export default function LoadingScreen({ onComplete }) {
                 if (onComplete) {
                     onComplete();
                 }
-            }, 500); // 0.5s fade out transition
+            }, 800); // 0.5s fade out transition
             return () => clearTimeout(fadeTimeout);
         }
     }, [progress, onComplete]);
@@ -136,8 +145,8 @@ export default function LoadingScreen({ onComplete }) {
                         fontSize="140"
                         fontWeight="900"
                         fill="transparent"
-                        stroke="rgba(255, 255, 255, 1)"
-                        strokeWidth=".1"
+                        stroke="linear-gradient(135deg, #020818 0%, #0a0f2e 50%, #0d1235 100%)"
+                        strokeWidth={isMobile ? "0.1" : "2"}
                         style={{
                             fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
                             letterSpacing: '4px'
@@ -156,7 +165,7 @@ export default function LoadingScreen({ onComplete }) {
                         fontWeight="900"
                         fill="#ffffff"
                         stroke="#ffffff"
-                        strokeWidth="2"
+                        strokeWidth={isMobile ? "0.1" : "2"}
                         clipPath="url(#liquid-clip)"
                         style={{
                             fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
