@@ -55,22 +55,23 @@ export default function LoadingScreen({ onComplete }) {
     if (!isVisible) return null;
 
     const roundedProgress = Math.floor(progress);
-    
+
     // Wave Y coordinate logic: 200 is empty, 0 is fully filled.
     const y = 200 - (progress / 100) * 200;
-    
+
     // Gently flatten the wave at 0% and 100% to ensure clean edges and avoid cut-offs.
-    const amp = progress === 0 || progress === 100 ? 0 : 8; 
-    
+    const amp = progress === 0 || progress === 100 ? 0 : 8;
+
     // Double period wave path spanning 1000px horizontally (for seamless looping translation).
     const wavePath = `M 0 ${y} Q 125 ${y - amp} 250 ${y} T 500 ${y} Q 625 ${y - amp} 750 ${y} T 1000 ${y} L 1000 300 L 0 300 Z`;
 
     return (
-        <div 
-            className="loading-overlay" 
+        <div
+            className="loading-overlay"
             style={{ opacity: isFadingOut ? 0 : 1 }}
         >
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 .loading-overlay {
                     position: fixed;
                     top: 0;
@@ -110,15 +111,15 @@ export default function LoadingScreen({ onComplete }) {
             <SpaceDustCanvas />
 
             <div className="svg-container">
-                <svg 
-                    viewBox="0 0 500 200" 
-                    width="100%" 
-                    height="100%" 
+                <svg
+                    viewBox="0 0 500 200"
+                    width="100%"
+                    height="100%"
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <defs>
                         <clipPath id="liquid-clip">
-                            <path 
+                            <path
                                 className="liquid-wave"
                                 d={wavePath}
                                 style={{ transformOrigin: 'center' }}
@@ -126,7 +127,7 @@ export default function LoadingScreen({ onComplete }) {
                         </clipPath>
                     </defs>
 
-                    {/* Background Text: Muted Dark Gray */}
+                    {/* Background Text: Transparent with White Border */}
                     <text
                         x="50%"
                         y="50%"
@@ -134,10 +135,12 @@ export default function LoadingScreen({ onComplete }) {
                         textAnchor="middle"
                         fontSize="140"
                         fontWeight="900"
-                        fill="#333333"
-                        style={{ 
+                        fill="transparent"
+                        stroke="rgba(255, 255, 255, 1)"
+                        strokeWidth=".1"
+                        style={{
                             fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-                            letterSpacing: '4px' 
+                            letterSpacing: '4px'
                         }}
                     >
                         MNW.
@@ -152,10 +155,12 @@ export default function LoadingScreen({ onComplete }) {
                         fontSize="140"
                         fontWeight="900"
                         fill="#ffffff"
+                        stroke="#ffffff"
+                        strokeWidth="2"
                         clipPath="url(#liquid-clip)"
-                        style={{ 
+                        style={{
                             fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-                            letterSpacing: '4px' 
+                            letterSpacing: '4px'
                         }}
                     >
                         MNW.
@@ -169,7 +174,7 @@ export default function LoadingScreen({ onComplete }) {
                         fontSize="13"
                         fontWeight="500"
                         textAnchor="end"
-                        style={{ 
+                        style={{
                             fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
                             letterSpacing: '1px',
                             opacity: 0.85

@@ -205,6 +205,41 @@ export default function AboutSection() {
           transform: translateY(-2px);
           box-shadow: 0 8px 20px rgba(108, 99, 255, 0.1);
         }
+        .hobbies-card {
+          position: relative;
+          background: rgba(6, 10, 32, 0.5);
+          border: 1px solid transparent !important;
+          z-index: 1;
+        }
+        .hobbies-card::before {
+          content: "";
+          position: absolute;
+          inset: -1px;
+          border-radius: 12px;
+          padding: 1px;
+          background: linear-gradient(135deg, var(--accent-purple-bright) 0%, rgba(108, 99, 255, 0) 100%);
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+          z-index: -1;
+          opacity: 0.6;
+          animation: hobbies-border-fade 3s infinite ease-in-out;
+          transition: opacity 0.3s ease;
+        }
+        .hobbies-card:hover::before {
+          opacity: 1;
+          animation: none;
+          background: linear-gradient(135deg, var(--accent-purple-bright) 0%, rgba(108, 99, 255, 0.4) 100%);
+        }
+        @keyframes hobbies-border-fade {
+          0%, 100% {
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
         .timeline-line {
           position: absolute;
           top: 50%;
@@ -343,8 +378,9 @@ export default function AboutSection() {
                         {/* Highlights Grid */}
                         <div className="highlight-grid">
                             {highlights.map(({ icon: Icon, label, value, link }) => {
+                                const isHobbies = label.toLowerCase() === 'hobbies';
                                 const cardInner = (
-                                    <div className="highlight-card" style={{ cursor: link ? 'pointer' : 'default', height: '100%' }}>
+                                    <div className={`highlight-card ${isHobbies ? 'hobbies-card' : ''}`} style={{ cursor: link ? 'pointer' : 'default', height: '100%' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                                             <Icon size={16} color="var(--accent-purple-bright)" />
                                             <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
