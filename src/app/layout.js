@@ -6,6 +6,10 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'Manusha Nuwan | Portfolio',
   description: 'Freelance UI/UX Designer & Frontend Developer',
+  icons: {
+    icon: '/mnw_logo.svg',
+    apple: '/mnw_logo.svg',
+  },
 };
 
 export default function RootLayout({ children }) {
