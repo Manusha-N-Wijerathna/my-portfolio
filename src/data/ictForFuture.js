@@ -13,5 +13,10 @@ export const ictGallery = [
         id: 'Eheliyagoda Central Collage IoT Seminar',
         image: '/ict-for-future/image03.png',
         description: 'Successfully conducted an insightful Internet of Things (IoT) Seminar at Eheliyagoda Central College. The session introduced students to the fundamentals of IoT, real-world applications, smart devices, sensors, and the future of connected technologies. It was a great opportunity to inspire young minds and explore how IoT is transforming industries and everyday life. Thank you to all the students and staff members for their enthusiastic participation and support.',
-    }
+    },
+    {
+        id: '2026 Grade 8 EM Batch',
+        image: '/ict-for-future/image04.jpeg',
+        description: 'We celebrated a special birthday moment with my Grade 8 English Medium ICT Batch 2026, who surprised me with lovely gifts and heartfelt wishes. Their kindness, thoughtfulness, and genuine affection made the occasion truly memorable and meaningful. It was a wonderful experience to see my students expressing their appreciation and making the day extra special. I am sincerely grateful for their love and support, and I wish every student a bright, successful, and happy future filled with knowledge, achievements, and wonderful opportunities.',
+    },
 ];
