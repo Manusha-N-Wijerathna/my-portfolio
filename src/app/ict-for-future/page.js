@@ -1,26 +1,33 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import SpaceDustCanvas from '@/components/SpaceDustCanvas';
 import { ictGallery } from '@/data/ictForFuture';
 
 export default function IctForFuturePage() {
+
+  const handleBack = () => {
+    // Navigate to home with hash so loading screen is skipped
+    window.location.href = '/#about';
+  };
+
   return (
     <main className="min-h-screen bg-[var(--bg-secondary)] px-4 py-12 sm:px-10 md:px-20 md:py-20 relative overflow-hidden flex flex-col items-center justify-center">
       <SpaceDustCanvas />
 
-      <div className="max-w-[1000px] mx-auto my-auto relative z-10 w-full">
+      {/* Floating Glassmorphic Back Button */}
+      <button
+        onClick={handleBack}
+        className="fixed top-6 left-6 sm:top-8 sm:left-10 z-50 group flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium cursor-pointer transition-all duration-300 border border-white/15 text-[var(--text-muted)] hover:text-white hover:border-[var(--accent-purple-bright)]/50 hover:shadow-[0_0_25px_rgba(108,99,255,0.35)] backdrop-blur-md bg-black/40"
+      >
+        <span className="flex items-center justify-center w-10 h-6 sm:w-7 sm:h-7 rounded-full bg-white/10 group-hover:bg-[var(--accent-purple-bright)] group-hover:text-white transition-all duration-300 group-hover:-translate-x-0.5">
+          <ArrowLeft size={15} />
+        </span>
+        <span className="sm:block hidden -ml-1">Back</span>
+      </button>
 
-        {/* Back link */}
-        <Link
-          href="/#about"
-          className="inline-flex items-center gap-2 text-[var(--text-muted)] no-underline mb-8 text-sm hover:text-white transition-colors"
-        >
-          <ArrowLeft size={16} /> Back
-        </Link>
-
+      <div className="max-w-[1000px] mx-auto my-auto relative z-10 w-full pt-12 sm:pt-0">
         {/* Title */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-2 text-center text-white tracking-tight">
           #ict_for_future
