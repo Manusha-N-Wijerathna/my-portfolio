@@ -5,7 +5,7 @@ export const ictGallery = [
         description: 'This was my very first ICT class, and I was fortunate to begin the journey with just two dedicated students. Today, I am proud to share that one of them—the student in the blue T-shirt—has successfully gained admission to the prestigious Wayamba University of Sri Lanka. Seeing my students achieve their academic goals is incredibly rewarding and serves as a reminder that every great success story starts with a single step.',
     },
     {
-        id: '2028 O/L English Medium',
+        id: '2026 O/L English Medium',
         image: '/ict-for-future/image02.jpg',
         description: 'We conducted a comprehensive ICT revision session for Grade 11 students, covering Units 01 through 04 in detail. To create a more interactive and enjoyable learning environment, we also organized two engaging educational games during the session. The combination of theory, discussion, and fun activities helped students reinforce their understanding while maintaining their enthusiasm and participation throughout the class.',
     },
@@ -19,4 +19,9 @@ export const ictGallery = [
         image: '/ict-for-future/image04.jpeg',
         description: 'We celebrated a special birthday moment with my Grade 8 English Medium ICT Batch 2026, who surprised me with lovely gifts and heartfelt wishes. Their kindness, thoughtfulness, and genuine affection made the occasion truly memorable and meaningful. It was a wonderful experience to see my students expressing their appreciation and making the day extra special. I am sincerely grateful for their love and support, and I wish every student a bright, successful, and happy future filled with knowledge, achievements, and wonderful opportunities.',
     },
+    {
+        id: '2026 O/L English Medium Batch – HTML Seminar',
+        image: '/ict-for-future/image05.jpeg',
+        description: 'We conducted a comprehensive 6-hour HTML Seminar for our 2026 O/L English Medium ICT Batch, focusing on the fundamentals of web designing and HTML. The session combined theoretical knowledge with practical activities, helping students understand HTML structure, elements, tags, attributes, and basic webpage creation. It was an engaging and productive learning experience that strengthened students’ knowledge and confidence in web development. I wish all my students continued success in their O/L journey and a bright future filled with knowledge and achievements.',
+    }
 ];
