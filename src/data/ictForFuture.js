@@ -23,5 +23,11 @@ export const ictGallery = [
         id: '2026 O/L English Medium Batch – HTML Seminar',
         image: '/ict-for-future/image05.jpeg',
         description: 'We conducted a comprehensive 6-hour HTML Seminar for our 2026 O/L English Medium ICT Batch, focusing on the fundamentals of web designing and HTML. The session combined theoretical knowledge with practical activities, helping students understand HTML structure, elements, tags, attributes, and basic webpage creation. It was an engaging and productive learning experience that strengthened students’ knowledge and confidence in web development. I wish all my students continued success in their O/L journey and a bright future filled with knowledge and achievements.',
+    },
+    {
+        id: '2026 O/L Sinhala Medium Batch – HTML Seminar',
+        image: '/ict-for-future/image06.jpeg',
+        description: 'We conducted a comprehensive 6-hour HTML Seminar for our 2026 O/L Sinhala Medium ICT Batch, focusing on the fundamentals of web designing and HTML. The session combined theoretical knowledge with practical activities, helping students understand HTML structure, tags, elements, attributes, and basic webpage creation. It was an engaging and productive learning experience that strengthened students’ knowledge and confidence in web development. I wish all my students continued success in their O/L journey and a bright future filled with knowledge, achievements, and wonderful opportunities.',
     }
+
 ];
