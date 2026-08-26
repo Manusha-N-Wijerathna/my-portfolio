@@ -85,7 +85,7 @@ export default function ContactSection() {
     return (
         <section id="contact" style={{
             minHeight: '100vh',
-            background: 'radial-gradient(circle at center, #0a0f2e 0%, #020818 100%)',
+            background: 'var(--about-bg)',
             padding: isMobile ? '60px 20px' : '100px 80px',
             display: 'flex',
             flexDirection: 'column',
@@ -116,11 +116,11 @@ export default function ContactSection() {
                 .contact-card {
                     max-width: 1000px;
                     width: 100%;
-                    background: rgba(13, 18, 53, 0.35);
+                    background: var(--card-bg-glass);
                     backdrop-filter: blur(16px);
                     -webkit-backdrop-filter: blur(16px);
                     border-radius: 20px;
-                    border: 1px solid rgba(30, 42, 94, 0.5);
+                    border: 1px solid var(--border-color);
                     padding: 48px;
                     display: flex;
                     gap: 48px;
@@ -151,10 +151,10 @@ export default function ContactSection() {
                 .input-field {
                     width: 100%;
                     padding: 12px 16px;
-                    background: rgba(6, 10, 32, 0.5);
-                    border: 1px solid rgba(30, 42, 94, 0.8);
+                    background: var(--toggle-bg);
+                    border: 1px solid var(--border-color);
                     border-radius: 10px;
-                    color: white;
+                    color: var(--text-primary);
                     font-size: 14px;
                     outline: none;
                     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -423,7 +423,7 @@ export default function ContactSection() {
                         fontWeight: '800',
                         lineHeight: '1.25',
                         marginBottom: '36px',
-                        color: 'white',
+                        color: 'var(--text-primary)',
                     }}>
                         Let&apos;s work<br />
                         <span style={{

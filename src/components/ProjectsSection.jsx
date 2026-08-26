@@ -50,6 +50,7 @@ export default function ProjectsSection() {
       {/* Label */}
       <div style={{
         background: 'var(--accent-purple)',
+        color: 'white',
         padding: '8px 28px',
         borderRadius: '20px',
         fontWeight: '600',
@@ -96,7 +97,7 @@ export default function ProjectsSection() {
           flex-grow: 1;
         }
         .project-title {
-          color: white;
+          color: var(--text-primary);
           font-size: 18px;
           font-weight: 700;
           margin-bottom: 8px;

@@ -202,7 +202,7 @@ export default function HeroSection() {
     return (
         <section id="hero" style={{
             minHeight: '100vh',
-            background: 'linear-gradient(135deg, #020818 0%, #0a0f2e 50%, #0d1235 100%)',
+            background: 'var(--hero-bg)',
             display: 'flex',
             alignItems: 'center',
             padding: isMobile ? '80px 20px 40px' : '0 80px',
@@ -298,7 +298,7 @@ export default function HeroSection() {
                         fontSize: isMobile ? '20px' : '28px',
                         fontWeight: '600',
                         marginBottom: '20px',
-                        color: 'white',
+                        color: 'var(--text-primary)',
                         minHeight: isMobile ? '30px' : '40px',
                     }}>
                         {subtitle}

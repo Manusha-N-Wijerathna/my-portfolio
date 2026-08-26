@@ -127,7 +127,7 @@ export default function AboutSection() {
     return (
         <section id="about" style={{
             minHeight: '100vh',
-            background: 'radial-gradient(circle at center, #0a0f2e 0%, #020818 100%)',
+            background: 'var(--about-bg)',
             padding: isMobile ? '60px 20px' : '100px 80px',
             display: 'flex',
             flexDirection: 'column',
@@ -155,11 +155,11 @@ export default function AboutSection() {
         .about-card {
           max-width: 1000px;
           width: 100%;
-          background: rgba(13, 18, 53, 0.35);
+          background: var(--card-bg-glass);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
           border-radius: 20px;
-          border: 1px solid rgba(30, 42, 94, 0.5);
+          border: 1px solid var(--border-color);
           padding: 40px;
           z-index: 10;
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
@@ -193,21 +193,21 @@ export default function AboutSection() {
           margin-top: 28px;
         }
         .highlight-card {
-          background: rgba(6, 10, 32, 0.5);
-          border: 1px solid rgba(30, 42, 94, 0.7);
+          background: var(--card-bg-glass);
+          border: 1px solid var(--border-color);
           border-radius: 12px;
           padding: 16px;
           transition: all 0.3s ease;
         }
         .highlight-card:hover {
           border-color: var(--accent-purple-bright);
-          background: rgba(6, 10, 32, 0.8);
+          background: var(--bg-card);
           transform: translateY(-2px);
           box-shadow: 0 8px 20px rgba(108, 99, 255, 0.1);
         }
         .hobbies-card {
           position: relative;
-          background: rgba(6, 10, 32, 0.5);
+          background: var(--card-bg-glass);
           border: 1px solid transparent !important;
           z-index: 1;
         }
@@ -250,10 +250,10 @@ export default function AboutSection() {
           transform: translateY(-50%);
         }
         .timeline-card-desktop {
-          background: rgba(13, 18, 53, 0.5);
+          background: var(--card-bg-glass);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(30, 42, 94, 0.7);
+          border: 1px solid var(--border-color);
           border-radius: 12px;
           padding: 14px 16px;
           width: 175px;
@@ -261,7 +261,7 @@ export default function AboutSection() {
           left: 50%;
           transform: translateX(-50%);
           transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
         .timeline-node-top {
           bottom: 24px;
@@ -271,7 +271,7 @@ export default function AboutSection() {
         }
         .timeline-card-desktop:hover {
           border-color: var(--accent-purple-bright);
-          background: rgba(13, 18, 53, 0.85);
+          background: var(--bg-card);
           box-shadow: 0 10px 25px rgba(108, 99, 255, 0.2);
         }
         .timeline-node-top:hover {
@@ -297,9 +297,9 @@ export default function AboutSection() {
           box-shadow: 0 0 18px var(--accent-purple-bright), 0 0 25px #ffffff;
         }
         .timeline-card-mobile {
-          background: rgba(13, 18, 53, 0.4);
+          background: var(--card-bg-glass);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(30, 42, 94, 0.7);
+          border: 1px solid var(--border-color);
           border-radius: 12px;
           padding: 16px;
           transition: all 0.3s ease;
@@ -307,7 +307,7 @@ export default function AboutSection() {
         }
         .timeline-card-mobile:hover {
           border-color: var(--accent-purple-bright);
-          background: rgba(13, 18, 53, 0.7);
+          background: var(--bg-card);
           transform: translateX(4px);
         }
         @media (max-width: 768px) {
@@ -360,7 +360,7 @@ export default function AboutSection() {
                             fontSize: isMobile ? '26px' : '34px',
                             fontWeight: '800',
                             marginBottom: '16px',
-                            color: 'white',
+                            color: 'var(--text-primary)',
                             lineHeight: 1.2
                         }}>
                             Who am I ?
@@ -387,7 +387,7 @@ export default function AboutSection() {
                                                 {label}
                                             </span>
                                         </div>
-                                        <div style={{ fontSize: '13.5px', fontWeight: '500', color: 'white', lineHeight: '1.4' }}>
+                                        <div style={{ fontSize: '13.5px', fontWeight: '500', color: 'var(--text-primary)', lineHeight: '1.4' }}>
                                             {value}
                                         </div>
                                     </div>
@@ -411,7 +411,7 @@ export default function AboutSection() {
                 fontSize: isMobile ? '20px' : '26px',
                 fontWeight: '800',
                 marginBottom: isMobile ? '32px' : '48px',
-                color: 'white',
+                color: 'var(--text-primary)',
                 textAlign: 'center',
                 zIndex: 10,
                 position: 'relative'
@@ -456,7 +456,7 @@ export default function AboutSection() {
                                 <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '15px', marginBottom: '6px' }}>
                                     {item.year}
                                 </div>
-                                <h4 style={{ color: 'white', fontWeight: '700', fontSize: '14.5px', marginBottom: '6px' }}>
+                                <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '14.5px', marginBottom: '6px' }}>
                                     {item.title}
                                 </h4>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '12.5px', lineHeight: '1.5' }}>
@@ -501,7 +501,7 @@ export default function AboutSection() {
                                             <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '14px', marginBottom: '4px' }}>
                                                 {item.year}
                                             </div>
-                                            <h4 style={{ color: 'white', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
+                                            <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
                                                 {item.title}
                                             </h4>
                                             <p style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>
@@ -522,7 +522,7 @@ export default function AboutSection() {
                                             <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '14px', marginBottom: '4px' }}>
                                                 {item.year}
                                             </div>
-                                            <h4 style={{ color: 'white', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
+                                            <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
                                                 {item.title}
                                             </h4>
                                             <p style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>
