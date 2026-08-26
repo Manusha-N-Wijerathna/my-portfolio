@@ -143,7 +143,7 @@ export default function Navbar() {
                     flexDirection: 'column',
                     gap: '8px',
                     padding: '16px 10px',
-                    background: 'rgba(13, 18, 53, 0.8)',
+                    background: 'var(--nav-bg)',
                     backdropFilter: 'blur(10px)',
                     borderRadius: '0 12px 12px 0',
                     border: '1px solid var(--border-color)',

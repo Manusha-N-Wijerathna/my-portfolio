@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+:root, [data-theme="dark"] {
   --bg-primary: #020818;
   --bg-secondary: #0a0f2e;
   --bg-card: #0d1235;
@@ -10,6 +10,30 @@
   --text-primary: #ffffff;
   --text-muted: #8892b0;
   --border-color: #1e2a5e;
+  --card-bg-glass: rgba(13, 18, 53, 0.5);
+  --nav-bg: rgba(13, 18, 53, 0.8);
+  --hero-bg: linear-gradient(135deg, #020818 0%, #0a0f2e 50%, #0d1235 100%);
+  --about-bg: radial-gradient(circle at center, #0a0f2e 0%, #020818 100%);
+  --toggle-bg: rgba(255, 255, 255, 0.08);
+  --toggle-border: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f4f6fc;
+  --bg-secondary: #eaf0fb;
+  --bg-card: #ffffff;
+  --accent-purple: #4f46e5;
+  --accent-purple-bright: #6366f1;
+  --accent-blue: #2563eb;
+  --text-primary: #0f172a;
+  --text-muted: #475569;
+  --border-color: #cbd5e1;
+  --card-bg-glass: rgba(255, 255, 255, 0.8);
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --hero-bg: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #e0e7ff 100%);
+  --about-bg: radial-gradient(circle at center, #eef2ff 0%, #f4f6fc 100%);
+  --toggle-bg: rgba(0, 0, 0, 0.06);
+  --toggle-border: rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -26,6 +50,29 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', sans-serif;
+  transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1), color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Smooth & slow fade transition across elements during theme toggle */
+html.theme-transition,
+html.theme-transition body,
+html.theme-transition section,
+html.theme-transition main,
+html.theme-transition div,
+html.theme-transition p,
+html.theme-transition h1,
+html.theme-transition h2,
+html.theme-transition h3,
+html.theme-transition h4,
+html.theme-transition span,
+html.theme-transition button,
+html.theme-transition a,
+html.theme-transition input,
+html.theme-transition textarea {
+  transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              color 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 ::-webkit-scrollbar {
@@ -37,6 +84,6 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--accent-purple);
+  background: var(--accent-purple-bright);
   border-radius: 3px;
 }

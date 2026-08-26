@@ -79,6 +79,7 @@ export default function SkillsSection() {
             {/* Label */}
             <div style={{
                 background: 'var(--accent-purple)',
+                color: 'white',
                 padding: '8px 28px',
                 borderRadius: '20px',
                 fontWeight: '600',
@@ -93,6 +94,7 @@ export default function SkillsSection() {
                 fontWeight: '800',
                 marginBottom: isMobile ? '36px' : '60px',
                 textAlign: 'center',
+                color: 'var(--text-primary)',
             }}>
                 Skills &amp; Technologies
             </h2>
@@ -127,7 +129,7 @@ export default function SkillsSection() {
                         {/* Card Title */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: isMobile ? '14px' : '20px' }}>
                             <category.icon size={18} color="var(--accent-purple-bright)" />
-                            <h3 style={{ fontSize: isMobile ? '14px' : '16px', fontWeight: '700', color: 'white' }}>
+                            <h3 style={{ fontSize: isMobile ? '14px' : '16px', fontWeight: '700', color: 'var(--text-primary)' }}>
                                 {category.title}
                             </h3>
                         </div>
