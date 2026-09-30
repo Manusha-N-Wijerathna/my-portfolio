@@ -32,8 +32,13 @@ export default function ProjectDetailPage({ params }) {
             minHeight: '100vh',
             background: 'var(--bg-primary)',
             padding: isMobile ? '40px 16px' : '60px 80px',
+            position: 'relative',
+            overflow: 'hidden',
         }}>
-            <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+            {/* Modern Developer Background Grid */}
+            <div className="site-grid-pattern" />
+
+            <div style={{ maxWidth: '900px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
                 {/* Back link */}
                 <Link

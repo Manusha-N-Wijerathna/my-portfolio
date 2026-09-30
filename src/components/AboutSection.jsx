@@ -321,6 +321,9 @@ export default function AboutSection() {
         }
       ` }} />
 
+            {/* Modern Developer Background Grid */}
+            <div className="site-grid-pattern" />
+
             {/* Wind animation background */}
             <WindCanvas />
 

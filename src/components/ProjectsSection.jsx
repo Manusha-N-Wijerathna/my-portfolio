@@ -43,6 +43,8 @@ export default function ProjectsSection() {
       position: 'relative',
       overflow: 'hidden',
     }}>
+      {/* Modern Developer Background Grid */}
+      <div className="site-grid-pattern" />
 
       {/* Animated background */}
       <SpaceDustCanvas />
@@ -56,6 +58,8 @@ export default function ProjectsSection() {
         fontWeight: '600',
         fontSize: '14px',
         marginBottom: isMobile ? '36px' : '60px',
+        position: 'relative',
+        zIndex: 1,
       }}>
         Projects
       </div>
@@ -154,6 +158,8 @@ export default function ProjectsSection() {
         display: 'grid',
         gridTemplateColumns: getGridColumns(),
         gap: isMobile ? '16px' : '24px',
+        position: 'relative',
+        zIndex: 1,
       }}>
         {projects.map((project) => {
           const firstImage = project.images && project.images[0] ? project.images[0] : '/projects/portfolio-1.jpg';

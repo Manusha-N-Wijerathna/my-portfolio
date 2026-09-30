@@ -72,6 +72,8 @@ export default function SkillsSection() {
             position: 'relative',
             overflow: 'hidden',
         }}>
+            {/* Modern Developer Background Grid */}
+            <div className="site-grid-pattern" />
 
             {/* Animated background */}
             <SpaceDustCanvas />
@@ -85,6 +87,8 @@ export default function SkillsSection() {
                 fontWeight: '600',
                 fontSize: '14px',
                 marginBottom: '16px',
+                position: 'relative',
+                zIndex: 1,
             }}>
                 Skills
             </div>
@@ -95,6 +99,8 @@ export default function SkillsSection() {
                 marginBottom: isMobile ? '36px' : '60px',
                 textAlign: 'center',
                 color: 'var(--text-primary)',
+                position: 'relative',
+                zIndex: 1,
             }}>
                 Skills &amp; Technologies
             </h2>
@@ -106,6 +112,8 @@ export default function SkillsSection() {
                 display: 'grid',
                 gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
                 gap: isMobile ? '16px' : '24px',
+                position: 'relative',
+                zIndex: 1,
             }}>
                 {skillCategories.map((category) => (
                     <div

@@ -2,7 +2,7 @@ export const projects = [
     {
         id: 'teablendai',
         title: 'TeaBlendAI',
-        images: ['/projects/teablendai-1.jpg', '/projects/teablendai-2.jpg'],
+        images: ['/projects/teablend-ai/dashboard.png', '/projects/teablend-ai/User Verification.png', '/projects/teablend-ai/Track Auction.png', '/projects/teablend-ai/System Logs.png', '/projects/teablend-ai/Violation Handeling.png', '/projects/teablend-ai/Admin Profile.png',],
         description: `Developing an AI-powered platform for the Sri Lankan tea industry that enables users to register, create and manage auction lots, and participate in live bidding. Building an AI chatbot with MCP server integration to answer natural language queries on tea pricing, blending analytics, and sales trends. Designing a real-time analytics dashboard with visualizations and summaries to support data-driven decision-making for buyers, sellers, and administrators.`,
         technologies: ['Next.js', 'Tailwind CSS', 'MSSQL', 'FastAPI', 'TypeScript', 'ShadcnUI', 'AceternityUI', 'LangChain'],
         githubUrl: 'https://github.com',
