@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { GraduationCap, TrendingUp, Sparkles, Compass } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 function WindCanvas() {
     const canvasRef = useRef(null);
@@ -100,15 +101,7 @@ function WindCanvas() {
 }
 
 export default function AboutSection() {
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
+    const isMobile = useIsMobile();
 
     const timeline = [
         { year: '2015', title: 'Diploma in Hardware Eng.', desc: 'Studied computer engineering, system configs & networking.', position: 'top' },

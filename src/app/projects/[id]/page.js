@@ -1,7 +1,7 @@
 'use client'
 
 
-import { use, useState, useEffect } from 'react';
+import { use } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,20 +9,12 @@ import { ArrowLeft } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { projects } from '@/data/projects';
 import ScrollReveal from '@/components/ScrollReveal';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export default function ProjectDetailPage({ params }) {
     const { id } = use(params);
-    const project = projects.find((p) => p.id === id);
-
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
+    const project = projects.find((p) => p.id.toLowerCase() === id?.toLowerCase());
+    const isMobile = useIsMobile();
 
     if (!project) {
         notFound();

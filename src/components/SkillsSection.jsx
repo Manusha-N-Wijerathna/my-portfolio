@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import SpaceDustCanvas from './SpaceDustCanvas';
 import ScrollReveal from './ScrollReveal';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 const skillCategories = [
     {
@@ -47,20 +48,7 @@ const skillCategories = [
 ];
 
 export default function SkillsSection() {
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        const handler = (e) => setIsMobile(e.matches);
-        const t = setTimeout(() => {
-            setIsMobile(mq.matches);
-        }, 0);
-        mq.addEventListener('change', handler);
-        return () => {
-            clearTimeout(t);
-            mq.removeEventListener('change', handler);
-        };
-    }, []);
+    const isMobile = useIsMobile();
 
     return (
         <section id="skills" style={{

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ArrowRight, Mail, GraduationCap, Database, Sparkles, FileText } from 'lucide-react';
 import { FaLinkedin, FaGithub, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { SiNextdotjs } from 'react-icons/si';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 // Meteor shower canvas for subtle ambient space atmosphere
 function MeteorCanvas() {
@@ -112,21 +113,13 @@ const ROLES = [
 ];
 
 export default function HeroSection() {
-    const [isMobile, setIsMobile] = useState(false);
+    const isMobile = useMediaQuery('(max-width: 900px)');
 
     // Typing animation states for roles
     const [roleIndex, setRoleIndex] = useState(0);
     const [currentText, setCurrentText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [showCursor, setShowCursor] = useState(true);
-
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 900px)');
-        const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
 
     // Typewriter cycle effect for the three roles
     useEffect(() => {
@@ -139,9 +132,11 @@ export default function HeroSection() {
         }
 
         if (isDeleting && currentText === '') {
-            setIsDeleting(false);
-            setRoleIndex((prev) => (prev + 1) % ROLES.length);
-            return;
+            const nextTimeout = setTimeout(() => {
+                setIsDeleting(false);
+                setRoleIndex((prev) => (prev + 1) % ROLES.length);
+            }, speed);
+            return () => clearTimeout(nextTimeout);
         }
 
         const timer = setTimeout(() => {
