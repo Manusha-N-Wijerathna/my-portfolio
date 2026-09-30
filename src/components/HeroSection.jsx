@@ -266,26 +266,6 @@ export default function HeroSection() {
             {/* Scoped CSS Styles for Left Side Typography and Interactive Buttons */}
             <style dangerouslySetInnerHTML={{
                 __html: `
-                /* Background Grid Pattern */
-                .hero-grid-pattern {
-                    position: absolute;
-                    inset: 0;
-                    background-image: 
-                        linear-gradient(to right, rgba(108, 99, 255, 0.08) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(108, 99, 255, 0.08) 1px, transparent 1px);
-                    background-size: 42px 42px;
-                    mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 45%, transparent 95%);
-                    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 45%, transparent 95%);
-                    pointer-events: none;
-                    z-index: 0;
-                }
-
-                [data-theme="light"] .hero-grid-pattern {
-                    background-image: 
-                        linear-gradient(to right, rgba(99, 102, 241, 0.07) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(99, 102, 241, 0.07) 1px, transparent 1px);
-                }
-
                 .hero-content-container {
                     position: relative;
                     width: 100%;

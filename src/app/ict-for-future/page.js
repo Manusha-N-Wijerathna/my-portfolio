@@ -14,6 +14,8 @@ export default function IctForFuturePage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg-secondary)] px-4 py-12 sm:px-10 md:px-20 md:py-20 relative overflow-hidden flex flex-col items-center justify-center">
+      {/* Modern Developer Background Grid */}
+      <div className="site-grid-pattern" />
       <SpaceDustCanvas />
 
       {/* Floating Glassmorphic Back Button */}

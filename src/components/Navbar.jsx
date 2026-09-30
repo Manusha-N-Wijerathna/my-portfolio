@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Home, User, Layers, FolderOpen, Send, Plus } from 'lucide-react';
+import { Home, User, Layers, FolderOpen, Send, Plus, Sun, Moon } from 'lucide-react';
 
 const navItems = [
     { icon: Home, href: '#hero', label: 'Home' },
@@ -16,9 +16,68 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [radius, setRadius] = useState(120);
+    const [theme, setTheme] = useState('dark');
+    const [activeSection, setActiveSection] = useState('hero');
 
     const containerRef = useRef(null);
     const toggleRef = useRef(null);
+
+    // Track active theme to match ThemeToggle colors
+    useEffect(() => {
+        const updateTheme = () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 
+                                 localStorage.getItem('portfolio-theme') || 
+                                 'dark';
+            setTheme(currentTheme);
+        };
+
+        updateTheme();
+
+        const observer = new MutationObserver(() => {
+            updateTheme();
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme'],
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
+    // Toggle theme with smooth transition
+    const toggleTheme = () => {
+        const nextTheme = theme === 'dark' ? 'light' : 'dark';
+        const docEl = document.documentElement;
+        docEl.classList.add('theme-transition');
+        setTheme(nextTheme);
+        localStorage.setItem('portfolio-theme', nextTheme);
+        docEl.setAttribute('data-theme', nextTheme);
+
+        setTimeout(() => {
+            docEl.classList.remove('theme-transition');
+        }, 800);
+    };
+
+    // Track scroll position to update sliding indicator on desktop navbar
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
+            const scrollPos = window.scrollY + 220;
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const el = document.getElementById(sections[i]);
+                if (el && el.offsetTop <= scrollPos) {
+                    setActiveSection(sections[i]);
+                    break;
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
@@ -107,11 +166,13 @@ export default function Navbar() {
 
     const handleNavClick = useCallback((e, href) => {
         e.preventDefault();
+        const targetId = href.replace('#', '');
+        setActiveSection(targetId);
         handleClose();
         setTimeout(() => {
             const target = document.querySelector(href);
             if (target) target.scrollIntoView({ behavior: 'smooth' });
-        }, 150);
+        }, 50);
     }, [handleClose]);
 
     // Calculate (x, y) coordinates for fanning items from 0 deg (up) to 90 deg (left)
@@ -129,54 +190,153 @@ export default function Navbar() {
         return { x: Math.round(x), y: Math.round(y) };
     };
 
-    // ── Desktop Sidebar ──
+    // ── Desktop Navigation: Centered at the top of the hero section, text-only tabs matching ThemeToggle design ──
     if (!isMobile) {
+        const isLight = theme === 'light';
+        const activeIndex = Math.max(0, navItems.findIndex((item) => item.href === `#${activeSection}`));
+        const tabWidth = 112; // Increased width per text tab (total width ~570px)
+
         return (
             <nav
+                aria-label="Desktop Navigation"
                 style={{
                     position: 'fixed',
-                    left: '0',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    zIndex: 100,
+                    top: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 90,
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px',
-                    padding: '16px 10px',
-                    background: 'var(--nav-bg)',
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: '0 12px 12px 0',
-                    border: '1px solid var(--border-color)',
-                    borderLeft: 'none',
+                    alignItems: 'center',
+                    padding: '5px 6px',
+                    background: 'var(--toggle-bg)',
+                    borderColor: 'var(--toggle-border)',
+                    borderWidth: '1px',
+                    borderStyle: 'solid',
+                    borderRadius: '9999px',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    boxShadow: isLight
+                        ? '0 8px 24px -4px rgba(251, 191, 36, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05)'
+                        : '0 8px 24px -4px rgba(108, 99, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.4)',
+                    transition: 'all 0.6s ease',
+                    userSelect: 'none',
                 }}
             >
-                {navItems.map(({ icon: Icon, href }) => (
-                    <a
-                        key={href}
-                        href={href}
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    {/* Smooth Sliding Pill Indicator (Matching ThemeToggle pill) */}
+                    <div
                         style={{
-                            width: '40px',
-                            height: '40px',
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            width: `${tabWidth}px`,
+                            borderRadius: '9999px',
+                            transform: `translateX(${activeIndex * tabWidth}px)`,
+                            transition: 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)',
+                            background: isLight
+                                ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
+                                : 'linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-purple-bright) 100%)',
+                            boxShadow: isLight
+                                ? '0 4px 12px rgba(245, 158, 11, 0.35)'
+                                : '0 4px 14px rgba(108, 99, 255, 0.45)',
+                            pointerEvents: 'none',
+                            zIndex: 0,
+                        }}
+                    />
+
+                    {/* Nav Items: Text Only */}
+                    {navItems.map(({ href, label }, idx) => {
+                        const isActive = activeIndex === idx;
+
+                        return (
+                            <a
+                                key={href}
+                                href={href}
+                                onClick={(e) => handleNavClick(e, href)}
+                                aria-label={label}
+                                style={{
+                                    position: 'relative',
+                                    zIndex: 1,
+                                    width: `${tabWidth}px`,
+                                    height: '40px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderRadius: '9999px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    letterSpacing: '0.4px',
+                                    color: isActive ? '#ffffff' : 'var(--text-muted)',
+                                    transition: 'color 0.3s ease',
+                                    textDecoration: 'none',
+                                    cursor: 'pointer',
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (!isActive) {
+                                        e.currentTarget.style.color = 'var(--text-primary)';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (!isActive) {
+                                        e.currentTarget.style.color = 'var(--text-muted)';
+                                    }
+                                }}
+                            >
+                                {label}
+                            </a>
+                        );
+                    })}
+
+                    {/* Subtle Vertical Divider */}
+                    <div
+                        style={{
+                            width: '1px',
+                            height: '20px',
+                            background: 'var(--toggle-border)',
+                            margin: '0 8px 0 6px',
+                            opacity: 0.8,
+                        }}
+                    />
+
+                    {/* Integrated Theme Toggle Button */}
+                    <button
+                        type="button"
+                        onClick={toggleTheme}
+                        title={isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                        aria-label={isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                        style={{
+                            position: 'relative',
+                            zIndex: 1,
+                            width: '38px',
+                            height: '38px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            borderRadius: '8px',
-                            color: 'var(--text-muted)',
-                            transition: 'all 0.2s',
-                            textDecoration: 'none',
+                            borderRadius: '9999px',
+                            color: isLight ? '#f59e0b' : '#a78bfa',
+                            background: 'transparent',
+                            border: 'none',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            padding: 0,
                         }}
                         onMouseEnter={(e) => {
-                            e.currentTarget.style.color = 'white';
-                            e.currentTarget.style.background = 'var(--accent-purple)';
+                            e.currentTarget.style.transform = 'scale(1.15)';
+                            e.currentTarget.style.background = isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.08)';
                         }}
                         onMouseLeave={(e) => {
-                            e.currentTarget.style.color = 'var(--text-muted)';
+                            e.currentTarget.style.transform = 'scale(1)';
                             e.currentTarget.style.background = 'transparent';
                         }}
                     >
-                        <Icon size={18} />
-                    </a>
-                ))}
+                        {isLight ? (
+                            <Sun size={18} className="transition-transform duration-500 rotate-90 text-amber-500" />
+                        ) : (
+                            <Moon size={18} className="transition-transform duration-500 -rotate-12 text-purple-400" />
+                        )}
+                    </button>
+                </div>
             </nav>
         );
     }    // ── Mobile: Radial Floating Menu ──

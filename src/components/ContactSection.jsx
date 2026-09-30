@@ -94,6 +94,9 @@ export default function ContactSection() {
             position: 'relative',
             overflow: 'hidden',
         }}>
+            {/* Modern Developer Background Grid */}
+            <div className="site-grid-pattern" />
+
             {/* Animated space dust and nebula background */}
             <SpaceDustCanvas />
 
