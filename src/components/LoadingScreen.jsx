@@ -2,20 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import SpaceDustCanvas from './SpaceDustCanvas';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export default function LoadingScreen({ onComplete }) {
     const [progress, setProgress] = useState(0);
-    const [isFadingOut, setIsFadingOut] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
+    const isMobile = useIsMobile();
+    const isFadingOut = progress >= 100;
 
     useEffect(() => {
         let timer;
@@ -50,13 +43,12 @@ export default function LoadingScreen({ onComplete }) {
 
     useEffect(() => {
         if (progress >= 100) {
-            setIsFadingOut(true);
             const fadeTimeout = setTimeout(() => {
                 setIsVisible(false);
                 if (onComplete) {
                     onComplete();
                 }
-            }, 800); // 0.5s fade out transition
+            }, 800); // 0.8s fade out transition
             return () => clearTimeout(fadeTimeout);
         }
     }, [progress, onComplete]);

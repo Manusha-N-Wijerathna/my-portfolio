@@ -5,20 +5,13 @@ import { Mail, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import SpaceDustCanvas from './SpaceDustCanvas';
 import ScrollReveal from './ScrollReveal';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export default function ContactSection() {
     const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-    const [isMobile, setIsMobile] = useState(false);
+    const isMobile = useIsMobile();
     const [status, setStatus] = useState('IDLE'); // 'IDLE' | 'SENDING' | 'SUCCESS' | 'ERROR'
     const [errorMessage, setErrorMessage] = useState('');
-
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        const handler = (e) => setIsMobile(e.matches);
-        setIsMobile(mq.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 

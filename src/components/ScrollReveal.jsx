@@ -38,7 +38,7 @@ export default function ScrollReveal({
 
         // If user prefers reduced motion, show immediately
         if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            setIsVisible(true);
+            requestAnimationFrame(() => setIsVisible(true));
             return;
         }
 

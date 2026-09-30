@@ -1,31 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { projects } from '@/data/projects';
 import SpaceDustCanvas from './SpaceDustCanvas';
 import ScrollReveal from './ScrollReveal';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 export default function ProjectsSection() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-
-  useEffect(() => {
-    const mqMobile = window.matchMedia('(max-width: 480px)');
-    const mqTablet = window.matchMedia('(min-width: 481px) and (max-width: 768px)');
-    const handler = () => {
-      setIsMobile(mqMobile.matches);
-      setIsTablet(mqTablet.matches);
-    };
-    handler();
-    mqMobile.addEventListener('change', handler);
-    mqTablet.addEventListener('change', handler);
-    return () => {
-      mqMobile.removeEventListener('change', handler);
-      mqTablet.removeEventListener('change', handler);
-    };
-  }, []);
+  const isMobile = useMediaQuery('(max-width: 480px)');
+  const isTablet = useMediaQuery('(min-width: 481px) and (max-width: 768px)');
 
   const getGridColumns = () => {
     if (isMobile) return '1fr';
