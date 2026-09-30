@@ -183,7 +183,8 @@ export default function Navbar() {
     return (
         <>
             {/* Scoped CSS animations & classes */}
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 @keyframes pulse-glow {
                     0%, 100% {
                         box-shadow: 0 0 10px rgba(108, 99, 255, 0.4), 0 0 20px rgba(108, 99, 255, 0.15);
