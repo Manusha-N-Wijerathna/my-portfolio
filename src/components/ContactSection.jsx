@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Mail, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import SpaceDustCanvas from './SpaceDustCanvas';
+import ScrollReveal from './ScrollReveal';
 
 export default function ContactSection() {
     const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -279,198 +280,202 @@ export default function ContactSection() {
             ` }} />
 
             {/* Label Tag */}
-            <div className="contact-tag">
-                Get In Touch
-            </div>
+            <ScrollReveal animation="fade-down" delay={60}>
+                <div className="contact-tag">
+                    Get In Touch
+                </div>
+            </ScrollReveal>
 
             {/* Glassmorphism Card */}
-            <div className="contact-card">
+            <ScrollReveal animation="fade-up" delay={120} duration={800} style={{ maxWidth: '1000px', width: '100%' }}>
+                <div className="contact-card">
 
-                {/* Left Form Section */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    {status === 'SUCCESS' ? (
-                        <div className="success-wrapper">
-                            <div className="success-circle">
-                                <CheckCircle2 size={32} />
-                            </div>
-                            <h3 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: 'white' }}>
-                                Message Sent!
-                            </h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.6', maxWidth: '400px', marginBottom: '28px' }}>
-                                Thank you for reaching out. I have received your message and will get back to you as soon as possible.
-                            </p>
-                            <button
-                                onClick={() => setStatus('IDLE')}
-                                className="submit-btn"
-                                style={{ maxWidth: '200px' }}
-                            >
-                                Send Another
-                            </button>
-                        </div>
-                    ) : (
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-
-
-                            <div style={{
-                                display: 'flex',
-                                gap: '16px',
-                                flexDirection: isMobile ? 'column' : 'row',
-                            }}>
-                                <div className="input-container" style={{ flex: 1 }}>
-                                    <label className="input-label">Name *</label>
-                                    <input
-                                        required
-                                        type="text"
-                                        name="name"
-                                        value={form.name}
-                                        onChange={handleChange}
-                                        disabled={status === 'SENDING'}
-                                        className="input-field"
-                                        placeholder="Your name"
-                                    />
+                    {/* Left Form Section */}
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        {status === 'SUCCESS' ? (
+                            <div className="success-wrapper">
+                                <div className="success-circle">
+                                    <CheckCircle2 size={32} />
                                 </div>
-                                <div className="input-container" style={{ flex: 1 }}>
-                                    <label className="input-label">Email *</label>
-                                    <input
-                                        required
-                                        type="email"
-                                        name="email"
-                                        value={form.email}
-                                        onChange={handleChange}
-                                        disabled={status === 'SENDING'}
-                                        className="input-field"
-                                        placeholder="your.email@example.com"
-                                    />
-                                </div>
+                                <h3 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: 'white' }}>
+                                    Message Sent!
+                                </h3>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.6', maxWidth: '400px', marginBottom: '28px' }}>
+                                    Thank you for reaching out. I have received your message and will get back to you as soon as possible.
+                                </p>
+                                <button
+                                    onClick={() => setStatus('IDLE')}
+                                    className="submit-btn"
+                                    style={{ maxWidth: '200px' }}
+                                >
+                                    Send Another
+                                </button>
                             </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
-                            <div className="input-container">
-                                <label className="input-label">Subject</label>
-                                <input
-                                    type="text"
-                                    name="subject"
-                                    value={form.subject}
-                                    onChange={handleChange}
-                                    disabled={status === 'SENDING'}
-                                    className="input-field"
-                                    placeholder="What is this about?"
-                                />
-                            </div>
 
-                            <div className="input-container" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                                <label className="input-label">Message *</label>
-                                <textarea
-                                    required
-                                    name="message"
-                                    value={form.message}
-                                    onChange={handleChange}
-                                    disabled={status === 'SENDING'}
-                                    rows={5}
-                                    className="input-field"
-                                    style={{ resize: 'vertical', minHeight: '120px', flexGrow: 1 }}
-                                    placeholder="Tell me about your project or inquiry..."
-                                />
-                            </div>
-
-                            {status === 'ERROR' && (
                                 <div style={{
                                     display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    color: '#ef4444',
-                                    fontSize: '13px',
-                                    marginBottom: '16px',
-                                    animation: 'elementFadeIn 0.3s ease'
+                                    gap: '16px',
+                                    flexDirection: isMobile ? 'column' : 'row',
                                 }}>
-                                    <AlertCircle size={16} />
-                                    <span>{errorMessage}</span>
+                                    <div className="input-container" style={{ flex: 1 }}>
+                                        <label className="input-label">Name *</label>
+                                        <input
+                                            required
+                                            type="text"
+                                            name="name"
+                                            value={form.name}
+                                            onChange={handleChange}
+                                            disabled={status === 'SENDING'}
+                                            className="input-field"
+                                            placeholder="Your name"
+                                        />
+                                    </div>
+                                    <div className="input-container" style={{ flex: 1 }}>
+                                        <label className="input-label">Email *</label>
+                                        <input
+                                            required
+                                            type="email"
+                                            name="email"
+                                            value={form.email}
+                                            onChange={handleChange}
+                                            disabled={status === 'SENDING'}
+                                            className="input-field"
+                                            placeholder="your.email@example.com"
+                                        />
+                                    </div>
                                 </div>
-                            )}
 
-                            <button
-                                type="submit"
-                                disabled={status === 'SENDING'}
-                                className="submit-btn"
-                            >
-                                {status === 'SENDING' ? (
-                                    <>
-                                        <Loader2 size={18} className="animate-spin" />
-                                        Sending Message...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Send size={16} />
-                                        Send Message
-                                    </>
+                                <div className="input-container">
+                                    <label className="input-label">Subject</label>
+                                    <input
+                                        type="text"
+                                        name="subject"
+                                        value={form.subject}
+                                        onChange={handleChange}
+                                        disabled={status === 'SENDING'}
+                                        className="input-field"
+                                        placeholder="What is this about?"
+                                    />
+                                </div>
+
+                                <div className="input-container" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                                    <label className="input-label">Message *</label>
+                                    <textarea
+                                        required
+                                        name="message"
+                                        value={form.message}
+                                        onChange={handleChange}
+                                        disabled={status === 'SENDING'}
+                                        rows={5}
+                                        className="input-field"
+                                        style={{ resize: 'vertical', minHeight: '120px', flexGrow: 1 }}
+                                        placeholder="Tell me about your project or inquiry..."
+                                    />
+                                </div>
+
+                                {status === 'ERROR' && (
+                                    <div style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '8px',
+                                        color: '#ef4444',
+                                        fontSize: '13px',
+                                        marginBottom: '16px',
+                                        animation: 'elementFadeIn 0.3s ease'
+                                    }}>
+                                        <AlertCircle size={16} />
+                                        <span>{errorMessage}</span>
+                                    </div>
                                 )}
-                            </button>
-                        </form>
-                    )}
-                </div>
 
-                {/* Right Info Section */}
-                <div style={{
-                    width: isMobile ? '100%' : '280px',
-                    flexShrink: 0,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: isMobile ? 'center' : 'flex-start',
-                    textAlign: isMobile ? 'center' : 'left',
-                }}>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                        Get in touch
-                    </p>
-                    <h3 style={{
-                        fontSize: isMobile ? '28px' : '36px',
-                        fontWeight: '800',
-                        lineHeight: '1.25',
-                        marginBottom: '36px',
-                        color: 'var(--text-primary)',
+                                <button
+                                    type="submit"
+                                    disabled={status === 'SENDING'}
+                                    className="submit-btn"
+                                >
+                                    {status === 'SENDING' ? (
+                                        <>
+                                            <Loader2 size={18} className="animate-spin" />
+                                            Sending Message...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Send size={16} />
+                                            Send Message
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+                        )}
+                    </div>
+
+                    {/* Right Info Section */}
+                    <div style={{
+                        width: isMobile ? '100%' : '280px',
+                        flexShrink: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: isMobile ? 'center' : 'flex-start',
+                        textAlign: isMobile ? 'center' : 'left',
                     }}>
-                        Let&apos;s work<br />
-                        <span style={{
-                            background: 'linear-gradient(90deg, #ffffff 0%, var(--accent-purple-bright) 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                        }}>together</span>
-                    </h3>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                            Get in touch
+                        </p>
+                        <h3 style={{
+                            fontSize: isMobile ? '28px' : '36px',
+                            fontWeight: '800',
+                            lineHeight: '1.25',
+                            marginBottom: '36px',
+                            color: 'var(--text-primary)',
+                        }}>
+                            Let&apos;s work<br />
+                            <span style={{
+                                background: 'linear-gradient(90deg, #ffffff 0%, var(--accent-purple-bright) 100%)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                            }}>together</span>
+                        </h3>
 
-                    {/* Social/Contact Links */}
-                    <div style={{ width: '100%' }}>
-                        {[
-                            {
-                                icon: Mail,
-                                text: 'manushawijerathna02@gmail.com',
-                                href: 'mailto:manushawijerathna02@gmail.com'
-                            },
-                            {
-                                icon: FaLinkedin,
-                                text: 'linkedin.com/in/manusha-nuwan',
-                                href: 'https://www.linkedin.com/in/manusha-nuwan-b674a62bb?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'
-                            },
-                            {
-                                icon: FaGithub,
-                                text: 'github.com/Manusha-N-Wijerathna',
-                                href: 'https://github.com/Manusha-N-Wijerathna'
-                            },
-                        ].map(({ icon: Icon, text, href }) => (
-                            <a
-                                key={text}
-                                href={href}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="social-link"
-                            >
-                                <div className="social-icon-box">
-                                    <Icon size={16} />
-                                </div>
-                                <span>{text}</span>
-                            </a>
-                        ))}
+                        {/* Social/Contact Links */}
+                        <div style={{ width: '100%' }}>
+                            {[
+                                {
+                                    icon: Mail,
+                                    text: 'manushawijerathna02@gmail.com',
+                                    href: 'mailto:manushawijerathna02@gmail.com'
+                                },
+                                {
+                                    icon: FaLinkedin,
+                                    text: 'linkedin.com/in/manusha-nuwan',
+                                    href: 'https://www.linkedin.com/in/manusha-nuwan-b674a62bb?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'
+                                },
+                                {
+                                    icon: FaGithub,
+                                    text: 'github.com/Manusha-N-Wijerathna',
+                                    href: 'https://github.com/Manusha-N-Wijerathna'
+                                },
+                            ].map(({ icon: Icon, text, href }) => (
+                                <a
+                                    key={text}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="social-link"
+                                >
+                                    <div className="social-icon-box">
+                                        <Icon size={16} />
+                                    </div>
+                                    <span>{text}</span>
+                                </a>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ScrollReveal>
         </section>
     );
 }
