@@ -10,7 +10,7 @@ export const projects = [
     {
         id: 'portfolio',
         title: 'Personal Portfolio (This_Website)',
-        images: ['/projects/portfolio/portf1.png','/projects/portfolio/portf2.png','/projects/portfolio/portf3.png','/projects/portfolio/portf4.png'],
+        images: ['/projects/portfolio/portf11.png','/projects/portfolio/portf2.png','/projects/portfolio/portf3.png','/projects/portfolio/portf4.png'],
         description: `Designing and developing a personal portfolio website to showcase my projects, skills, and professional journey. Built with a component-based architecture in Next.js, featuring custom canvas-based animations and a fully responsive multi-section layout.`,
         technologies: ['Next.js', 'Tailwind CSS', 'Lucide React'],
         githubUrl: 'https://github.com',
@@ -27,8 +27,8 @@ export const projects = [
 
     {
         id: 'CodeBoard',
-        title: 'CodeBoard - LMS',
-        images: ['/projects/lms/lms1.png','/projects/lms/lms2.png','/projects/lms/lms3.png','/projects/lms/lms4.png','/projects/lms/lms5.png'],
+        title: 'ICT For Future - Open LMS',
+        images: ['/projects/lms/lms01.png','/projects/lms/lms02.png','/projects/lms/lms03.png','/projects/lms/lms04.png','/projects/lms/lms05.png'],
         description: `This is a full-stack ICT Learning Management System (LMS) built with Next.js (frontend) and FastAPI (backend), using Supabase as the database and authentication layer. Students can register, wait for admin approval, then browse lessons organized by grade (10, 11, A/L) → units → lessons, where each lesson card opens a Google Drive video/resource link. Admins have a completely separate login and dashboard where they can create, edit, and delete lessons for any grade and unit, and verify or reject student accounts — controlling who gets access to the content. The whole system uses JWT tokens issued by Supabase Auth to securely protect routes, with role-based access ensuring students only see content and admins control everything behind the scenes.`,
         technologies: ['Next.js', 'FastAPI', 'Supabase', 'TailwindCSS', 'JWT tokens'],
         githubUrl: 'https://github.com',
