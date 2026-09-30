@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Home, User, Layers, FolderOpen, Send, Plus, Sun, Moon } from 'lucide-react';
+import { Home, User, Layers, FolderOpen, Send, Plus, X, Sun, Moon } from 'lucide-react';
 
 const navItems = [
     { icon: Home, href: '#hero', label: 'Home' },
@@ -339,7 +339,12 @@ export default function Navbar() {
                 </div>
             </nav>
         );
-    }    // ── Mobile: Radial Floating Menu ──
+    }
+
+    // ── Mobile: Radial Floating Menu ──
+    const currentItem = navItems.find((item) => item.href === `#${activeSection}`) || navItems[0];
+    const CurrentIcon = currentItem.icon;
+
     return (
         <>
             {/* Scoped CSS animations & classes */}
@@ -412,40 +417,6 @@ export default function Navbar() {
                 }
             ` }} />
 
-            {/* Mobile Top Theme Toggle Icon */}
-            <div className="md:hidden fixed top-4 right-4 z-[990]">
-                <button
-                    type="button"
-                    onClick={toggleTheme}
-                    aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                    style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '9999px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: 'var(--toggle-bg)',
-                        borderColor: 'var(--toggle-border)',
-                        borderWidth: '1px',
-                        borderStyle: 'solid',
-                        backdropFilter: 'blur(16px)',
-                        WebkitBackdropFilter: 'blur(16px)',
-                        boxShadow: theme === 'light'
-                            ? '0 4px 16px rgba(251, 191, 36, 0.2), 0 2px 8px rgba(0, 0, 0, 0.05)'
-                            : '0 4px 16px rgba(108, 99, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3)',
-                        color: theme === 'dark' ? '#fbbf24' : '#6366f1',
-                        cursor: 'pointer',
-                        transition: 'transform 0.2s ease, background 0.3s ease',
-                    }}
-                >
-                    {theme === 'dark' ? (
-                        <Sun size={18} className="text-amber-400 rotate-0 transition-transform duration-500" />
-                    ) : (
-                        <Moon size={18} className="text-indigo-400 -rotate-12 transition-transform duration-500" />
-                    )}
-                </button>
-            </div>
 
             {/* Radial Menu Items */}
             <div
@@ -453,8 +424,7 @@ export default function Navbar() {
                 className="nav-radial-container"
             >
                 {navItems.map(({ icon: Icon, href, label }, index) => {
-                    const totalItems = navItems.length + 1;
-                    const { x, y } = getRadialCoords(index, totalItems);
+                    const { x, y } = getRadialCoords(index, navItems.length);
                     const isItemOpen = isOpen && !isClosing;
 
                     return (
@@ -466,7 +436,7 @@ export default function Navbar() {
                                 '--y': `${y}px`,
                                 transitionDelay: isItemOpen
                                     ? `${index * 0.05}s`
-                                    : `${(totalItems - 1 - index) * 0.03}s`,
+                                    : `${(navItems.length - 1 - index) * 0.03}s`,
                             }}
                         >
                             <a
@@ -480,53 +450,13 @@ export default function Navbar() {
                         </div>
                     );
                 })}
-
-                {/* Theme Toggle Button in Mobile Radial Menu */}
-                {(() => {
-                    const totalItems = navItems.length + 1;
-                    const { x, y } = getRadialCoords(navItems.length, totalItems);
-                    const isItemOpen = isOpen && !isClosing;
-
-                    return (
-                        <div
-                            className={`nav-radial-item-wrapper ${isItemOpen ? 'open' : ''}`}
-                            style={{
-                                '--x': `${x}px`,
-                                '--y': `${y}px`,
-                                transitionDelay: isItemOpen
-                                    ? `${navItems.length * 0.05}s`
-                                    : '0s',
-                            }}
-                        >
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    toggleTheme();
-                                    handleClose();
-                                }}
-                                className="nav-radial-button"
-                                aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                                style={{
-                                    color: theme === 'dark' ? '#fbbf24' : '#a78bfa',
-                                    borderColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.6)' : 'var(--accent-purple-bright)',
-                                }}
-                            >
-                                {theme === 'dark' ? (
-                                    <Sun size={16} className="text-amber-400" />
-                                ) : (
-                                    <Moon size={16} className="text-purple-400" />
-                                )}
-                            </button>
-                        </div>
-                    );
-                })()}
             </div>
 
             {/* Floating toggle button */}
             <button
                 ref={toggleRef}
                 onClick={handleToggle}
-                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                aria-label={isOpen ? 'Close menu' : `Current section: ${currentItem.label}. Open menu`}
                 aria-expanded={isOpen}
                 suppressHydrationWarning
                 style={{
@@ -538,23 +468,27 @@ export default function Navbar() {
                     height: '44px',
                     borderRadius: '50%',
                     border: '2px solid var(--accent-purple-bright)',
-                    background: isOpen
-                        ? 'var(--accent-purple)'
-                        : 'linear-gradient(135deg, var(--accent-purple), var(--accent-purple-bright))',
-                    color: 'white',
+                    background: 'transparent',
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
+                    color: 'var(--accent-purple-bright)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
                     animation: isOpen ? 'none' : 'pulse-glow 2.5s ease-in-out infinite',
-                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s',
-                    transform: isOpen ? 'rotate(135deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, color 0.3s, border-color 0.3s',
+                    transform: isOpen ? 'scale(1.08)' : 'scale(1)',
                     boxShadow: isOpen
                         ? '0 0 16px rgba(108, 99, 255, 0.5)'
-                        : '0 0 10px rgba(108, 99, 255, 0.4)',
+                        : '0 0 10px rgba(108, 99, 255, 0.35)',
                 }}
             >
-                <Plus size={20} strokeWidth={2.5} />
+                {isOpen ? (
+                    <X size={20} strokeWidth={2.4} />
+                ) : (
+                    <CurrentIcon size={20} strokeWidth={2.2} />
+                )}
             </button>
         </>
     );
