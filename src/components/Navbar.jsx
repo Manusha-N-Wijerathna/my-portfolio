@@ -412,13 +412,49 @@ export default function Navbar() {
                 }
             ` }} />
 
+            {/* Mobile Top Theme Toggle Icon */}
+            <div className="md:hidden fixed top-4 right-4 z-[990]">
+                <button
+                    type="button"
+                    onClick={toggleTheme}
+                    aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                    style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '9999px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'var(--toggle-bg)',
+                        borderColor: 'var(--toggle-border)',
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        boxShadow: theme === 'light'
+                            ? '0 4px 16px rgba(251, 191, 36, 0.2), 0 2px 8px rgba(0, 0, 0, 0.05)'
+                            : '0 4px 16px rgba(108, 99, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3)',
+                        color: theme === 'dark' ? '#fbbf24' : '#6366f1',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease, background 0.3s ease',
+                    }}
+                >
+                    {theme === 'dark' ? (
+                        <Sun size={18} className="text-amber-400 rotate-0 transition-transform duration-500" />
+                    ) : (
+                        <Moon size={18} className="text-indigo-400 -rotate-12 transition-transform duration-500" />
+                    )}
+                </button>
+            </div>
+
             {/* Radial Menu Items */}
             <div
                 ref={containerRef}
                 className="nav-radial-container"
             >
                 {navItems.map(({ icon: Icon, href, label }, index) => {
-                    const { x, y } = getRadialCoords(index, navItems.length);
+                    const totalItems = navItems.length + 1;
+                    const { x, y } = getRadialCoords(index, totalItems);
                     const isItemOpen = isOpen && !isClosing;
 
                     return (
@@ -430,7 +466,7 @@ export default function Navbar() {
                                 '--y': `${y}px`,
                                 transitionDelay: isItemOpen
                                     ? `${index * 0.05}s`
-                                    : `${(navItems.length - 1 - index) * 0.03}s`,
+                                    : `${(totalItems - 1 - index) * 0.03}s`,
                             }}
                         >
                             <a
@@ -444,6 +480,46 @@ export default function Navbar() {
                         </div>
                     );
                 })}
+
+                {/* Theme Toggle Button in Mobile Radial Menu */}
+                {(() => {
+                    const totalItems = navItems.length + 1;
+                    const { x, y } = getRadialCoords(navItems.length, totalItems);
+                    const isItemOpen = isOpen && !isClosing;
+
+                    return (
+                        <div
+                            className={`nav-radial-item-wrapper ${isItemOpen ? 'open' : ''}`}
+                            style={{
+                                '--x': `${x}px`,
+                                '--y': `${y}px`,
+                                transitionDelay: isItemOpen
+                                    ? `${navItems.length * 0.05}s`
+                                    : '0s',
+                            }}
+                        >
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    toggleTheme();
+                                    handleClose();
+                                }}
+                                className="nav-radial-button"
+                                aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                                style={{
+                                    color: theme === 'dark' ? '#fbbf24' : '#a78bfa',
+                                    borderColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.6)' : 'var(--accent-purple-bright)',
+                                }}
+                            >
+                                {theme === 'dark' ? (
+                                    <Sun size={16} className="text-amber-400" />
+                                ) : (
+                                    <Moon size={16} className="text-purple-400" />
+                                )}
+                            </button>
+                        </div>
+                    );
+                })()}
             </div>
 
             {/* Floating toggle button */}
