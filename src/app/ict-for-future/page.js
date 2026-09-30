@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 import SpaceDustCanvas from '@/components/SpaceDustCanvas';
+import ScrollReveal from '@/components/ScrollReveal';
 import { ictGallery } from '@/data/ictForFuture';
 
 export default function IctForFuturePage() {
@@ -44,39 +45,46 @@ export default function IctForFuturePage() {
         {/* Polaroid gallery */}
         <div className="flex flex-col gap-16 md:gap-24 mb-20">
           {ictGallery.map((item, i) => (
-            <div
+            <ScrollReveal
               key={item.id}
-              className={`flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full ${
-                i % 2 === 0 ? '' : 'md:flex-row-reverse'
-              }`}
+              animation={i % 2 === 0 ? "fade-right" : "fade-left"}
+              delay={80}
+              duration={800}
+              style={{ width: '100%' }}
             >
-              {/* Tilted image card */}
               <div
-                className={`relative w-full max-w-[320px] aspect-[320/220] h-auto rounded-lg border-4 border-white shadow-2xl transition-transform duration-300 ${
-                  i % 2 === 0
-                    ? '-rotate-2 md:-rotate-6 hover:rotate-0'
-                    : 'rotate-2 md:rotate-6 hover:rotate-0'
-                } shrink-0`}
+                className={`flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full ${
+                  i % 2 === 0 ? '' : 'md:flex-row-reverse'
+                }`}
               >
-                <Image
-                  src={item.image}
-                  alt={String(item.id)}
-                  fill
-                  className="object-cover"
-                  priority={i === 0}
-                />
-              </div>
+                {/* Tilted image card */}
+                <div
+                  className={`relative w-full max-w-[320px] aspect-[320/220] h-auto rounded-lg border-4 border-white shadow-2xl transition-transform duration-300 ${
+                    i % 2 === 0
+                      ? '-rotate-2 md:-rotate-6 hover:rotate-0'
+                      : 'rotate-2 md:rotate-6 hover:rotate-0'
+                  } shrink-0`}
+                >
+                  <Image
+                    src={item.image}
+                    alt={String(item.id)}
+                    fill
+                    className="object-cover"
+                    priority={i === 0}
+                  />
+                </div>
 
-              {/* Description */}
-              <div className="w-full md:max-w-[480px] text-center md:text-left">
-                <h3 className="text-[var(--text-primary)] text-xl sm:text-2xl font-extrabold mb-3 tracking-tight px-6 md:px-0">
-                  {item.id}
-                </h3>
-                <p className="text-[var(--text-muted)] text-sm sm:text-base leading-relaxed px-10 sm:px-12 md:px-0">
-                  {item.description}
-                </p>
+                {/* Description */}
+                <div className="w-full md:max-w-[480px] text-center md:text-left">
+                  <h3 className="text-[var(--text-primary)] text-xl sm:text-2xl font-extrabold mb-3 tracking-tight px-6 md:px-0">
+                    {item.id}
+                  </h3>
+                  <p className="text-[var(--text-muted)] text-sm sm:text-base leading-relaxed px-10 sm:px-12 md:px-0">
+                    {item.description}
+                  </p>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 

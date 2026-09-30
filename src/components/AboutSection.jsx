@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { GraduationCap, TrendingUp, Sparkles, Compass } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 function WindCanvas() {
     const canvasRef = useRef(null);
@@ -328,217 +329,231 @@ export default function AboutSection() {
             <WindCanvas />
 
             {/* Section Label */}
-            <div className="about-tag">
-                About Me
-            </div>
+            <ScrollReveal animation="fade-down" delay={60}>
+                <div className="about-tag">
+                    About Me
+                </div>
+            </ScrollReveal>
 
             {/* About Me Card */}
-            <div className="about-card" style={{ marginBottom: isMobile ? '40px' : '60px' }}>
-                <div style={{
-                    display: 'flex',
-                    gap: isMobile ? '32px' : '48px',
-                    alignItems: isMobile ? 'center' : 'flex-start',
-                    flexDirection: isMobile ? 'column' : 'row',
-                }}>
-                    {/* Photo Container */}
-                    <div style={{ flexShrink: 0 }}>
-                        <div className="profile-img-wrapper" style={{
-                            width: isMobile ? '180px' : '230px',
-                            height: isMobile ? '230px' : '290px',
-                        }}>
-                            <Image
-                                src="/profile_about.jpg"
-                                alt="Manusha Nuwan"
-                                fill
-                                sizes="(max-width: 768px) 180px, 230px"
-                                style={{ objectFit: 'cover' }}
-                                priority
-                            />
+            <ScrollReveal animation="fade-up" delay={120} duration={800} style={{ width: '100%', maxWidth: '1000px' }}>
+                <div className="about-card" style={{ marginBottom: isMobile ? '40px' : '60px' }}>
+                    <div style={{
+                        display: 'flex',
+                        gap: isMobile ? '32px' : '48px',
+                        alignItems: isMobile ? 'center' : 'flex-start',
+                        flexDirection: isMobile ? 'column' : 'row',
+                    }}>
+                        {/* Photo Container */}
+                        <div style={{ flexShrink: 0 }}>
+                            <div className="profile-img-wrapper" style={{
+                                width: isMobile ? '180px' : '230px',
+                                height: isMobile ? '230px' : '290px',
+                            }}>
+                                <Image
+                                    src="/profile_about.jpg"
+                                    alt="Manusha Nuwan"
+                                    fill
+                                    sizes="(max-width: 768px) 180px, 230px"
+                                    style={{ objectFit: 'cover' }}
+                                    priority
+                                />
+                            </div>
+                        </div>
+
+                        {/* Biography and Info */}
+                        <div style={{ flex: 1, textAlign: isMobile ? 'center' : 'left' }}>
+                            <h2 style={{
+                                fontSize: isMobile ? '26px' : '34px',
+                                fontWeight: '800',
+                                marginBottom: '16px',
+                                color: 'var(--text-primary)',
+                                lineHeight: 1.2
+                            }}>
+                                Who am I ?
+                            </h2>
+                            <p style={{
+                                color: 'var(--text-muted)',
+                                lineHeight: '1.8',
+                                fontSize: isMobile ? '14px' : '15.5px',
+                                marginBottom: '24px'
+                            }}>
+                                My name is <strong>Manusha Nuwan</strong>.<br />
+                                I am an IT undergraduate student at the Faculty of Information Technology, University of Moratuwa, and an aspiring Data Scientist. Here, I immerse myself in studying the latest AI algorithms and data methodologies, gathering valuable career insights. Beyond my academic pursuits, I am a passionate IT tutor dedicated to helping students understand complex technology concepts in a simple and practical way. I enjoy mentoring learners in programming, ICT, and problem-solving, empowering them to build confidence and achieve their educational goals.
+                            </p>
+
+                            {/* Highlights Grid */}
+                            <div className="highlight-grid">
+                                {highlights.map(({ icon: Icon, label, value, link }, idx) => {
+                                    const isHobbies = label.toLowerCase() === 'hobbies';
+                                    const cardInner = (
+                                        <div className={`highlight-card ${isHobbies ? 'hobbies-card' : ''}`} style={{ cursor: link ? 'pointer' : 'default', height: '100%' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                                                <Icon size={16} color="var(--accent-purple-bright)" />
+                                                <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                    {label}
+                                                </span>
+                                            </div>
+                                            <div style={{ fontSize: '13.5px', fontWeight: '500', color: 'var(--text-primary)', lineHeight: '1.4' }}>
+                                                {value}
+                                            </div>
+                                        </div>
+                                    );
+
+                                    return (
+                                        <ScrollReveal key={label} animation="fade-up" delay={180 + idx * 80} duration={650}>
+                                            {link ? (
+                                                <Link href={link} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                                                    {cardInner}
+                                                </Link>
+                                            ) : (
+                                                <div style={{ height: '100%' }}>{cardInner}</div>
+                                            )}
+                                        </ScrollReveal>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
+                </div>
+            </ScrollReveal>
 
-                    {/* Biography and Info */}
-                    <div style={{ flex: 1, textAlign: isMobile ? 'center' : 'left' }}>
-                        <h2 style={{
-                            fontSize: isMobile ? '26px' : '34px',
-                            fontWeight: '800',
-                            marginBottom: '16px',
-                            color: 'var(--text-primary)',
-                            lineHeight: 1.2
-                        }}>
-                            Who am I ?
-                        </h2>
-                        <p style={{
-                            color: 'var(--text-muted)',
-                            lineHeight: '1.8',
-                            fontSize: isMobile ? '14px' : '15.5px',
-                            marginBottom: '24px'
-                        }}>
-                            My name is <strong>Manusha Nuwan</strong>.<br />
-                            I am an IT undergraduate student at the Faculty of Information Technology, University of Moratuwa, and an aspiring Data Scientist. Here, I immerse myself in studying the latest AI algorithms and data methodologies, gathering valuable career insights. Beyond my academic pursuits, I am a passionate IT tutor dedicated to helping students understand complex technology concepts in a simple and practical way. I enjoy mentoring learners in programming, ICT, and problem-solving, empowering them to build confidence and achieve their educational goals.
-                        </p>
+            {/* Timeline Label */}
+            <ScrollReveal animation="fade-up" delay={80}>
+                <h3 style={{
+                    fontSize: isMobile ? '20px' : '26px',
+                    fontWeight: '800',
+                    marginBottom: isMobile ? '32px' : '48px',
+                    color: 'var(--text-primary)',
+                    textAlign: 'center',
+                    zIndex: 10,
+                    position: 'relative'
+                }}>
+                    Education &amp; Milestones
+                </h3>
+            </ScrollReveal>
 
-                        {/* Highlights Grid */}
-                        <div className="highlight-grid">
-                            {highlights.map(({ icon: Icon, label, value, link }) => {
-                                const isHobbies = label.toLowerCase() === 'hobbies';
-                                const cardInner = (
-                                    <div className={`highlight-card ${isHobbies ? 'hobbies-card' : ''}`} style={{ cursor: link ? 'pointer' : 'default', height: '100%' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                                            <Icon size={16} color="var(--accent-purple-bright)" />
-                                            <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                                                {label}
-                                            </span>
+            {/* Timeline Area */}
+            <ScrollReveal animation="fade-up" delay={150} duration={850} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                {isMobile ? (
+                    /* ── Mobile: Vertical Timeline ── */
+                    <div style={{
+                        maxWidth: '450px',
+                        width: '100%',
+                        position: 'relative',
+                        paddingLeft: '32px',
+                        zIndex: 10,
+                    }}>
+                        {/* Vertical line */}
+                        <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            left: '8px',
+                            width: '3px',
+                            background: 'linear-gradient(180deg, rgba(61,47,196,0.3) 0%, rgba(108,99,255,0.7) 50%, rgba(61,47,196,0.3) 100%)',
+                        }} />
+
+                        {timeline.map((item, index) => (
+                            <ScrollReveal key={item.year} animation="fade-left" delay={index * 120} duration={600}>
+                                <div style={{
+                                    position: 'relative',
+                                    paddingLeft: '16px',
+                                }}>
+                                    {/* Dot on the line */}
+                                    <div className="glow-dot" style={{
+                                        position: 'absolute',
+                                        left: '-24px',
+                                        top: '18px',
+                                    }} />
+
+                                    {/* Milestone Card */}
+                                    <div className="timeline-card-mobile">
+                                        <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '15px', marginBottom: '6px' }}>
+                                            {item.year}
                                         </div>
-                                        <div style={{ fontSize: '13.5px', fontWeight: '500', color: 'var(--text-primary)', lineHeight: '1.4' }}>
-                                            {value}
-                                        </div>
+                                        <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '14.5px', marginBottom: '6px' }}>
+                                            {item.title}
+                                        </h4>
+                                        <p style={{ color: 'var(--text-muted)', fontSize: '12.5px', lineHeight: '1.5' }}>
+                                            {item.desc}
+                                        </p>
                                     </div>
-                                );
+                                </div>
+                            </ScrollReveal>
+                        ))}
+                    </div>
+                ) : (
+                    /* ── Desktop: Horizontal Timeline ── */
+                    <div style={{
+                        maxWidth: '1000px',
+                        width: '100%',
+                        height: '320px',
+                        position: 'relative',
+                        zIndex: 10,
+                        marginTop: '20px'
+                    }}>
+                        {/* Line */}
+                        <div className="timeline-line" />
 
-                                return link ? (
-                                    <Link key={label} href={link} style={{ textDecoration: 'none', display: 'block' }}>
-                                        {cardInner}
-                                    </Link>
-                                ) : (
-                                    <div key={label}>{cardInner}</div>
+                        {/* Dynamic flex container for nodes */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', top: '50%', transform: 'translateY(-50%)', padding: '0 20px' }}>
+                            {timeline.map((item, index) => {
+                                const leftPercent = `${(index / (timeline.length - 1)) * 100}%`;
+                                return (
+                                    <div key={item.year} style={{
+                                        position: 'absolute',
+                                        left: leftPercent,
+                                        transform: 'translateX(-50%)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}>
+                                        {/* Alternating top timeline card */}
+                                        {item.position === 'top' && (
+                                            <div
+                                                className="timeline-card-desktop timeline-node-top"
+                                                style={{ '--hover-translate': '-4px' }}
+                                            >
+                                                <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '14px', marginBottom: '4px' }}>
+                                                    {item.year}
+                                                </div>
+                                                <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
+                                                    {item.title}
+                                                </h4>
+                                                <p style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>
+                                                    {item.desc}
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {/* Dot Node */}
+                                        <div className="glow-dot" />
+
+                                        {/* Alternating bottom timeline card */}
+                                        {item.position === 'bottom' && (
+                                            <div
+                                                className="timeline-card-desktop timeline-node-bottom"
+                                                style={{ '--hover-translate': '4px' }}
+                                            >
+                                                <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '14px', marginBottom: '4px' }}>
+                                                    {item.year}
+                                                </div>
+                                                <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
+                                                    {item.title}
+                                                </h4>
+                                                <p style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>
+                                                    {item.desc}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
                                 );
                             })}
                         </div>
                     </div>
-                </div>
-            </div>
-
-            {/* Timeline Label */}
-            <h3 style={{
-                fontSize: isMobile ? '20px' : '26px',
-                fontWeight: '800',
-                marginBottom: isMobile ? '32px' : '48px',
-                color: 'var(--text-primary)',
-                textAlign: 'center',
-                zIndex: 10,
-                position: 'relative'
-            }}>
-                Education &amp; Milestones
-            </h3>
-
-            {/* Timeline Area */}
-            {isMobile ? (
-                /* ── Mobile: Vertical Timeline ── */
-                <div style={{
-                    maxWidth: '450px',
-                    width: '100%',
-                    position: 'relative',
-                    paddingLeft: '32px',
-                    zIndex: 10,
-                }}>
-                    {/* Vertical line */}
-                    <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        bottom: 0,
-                        left: '8px',
-                        width: '3px',
-                        background: 'linear-gradient(180deg, rgba(61,47,196,0.3) 0%, rgba(108,99,255,0.7) 50%, rgba(61,47,196,0.3) 100%)',
-                    }} />
-
-                    {timeline.map((item) => (
-                        <div key={item.year} style={{
-                            position: 'relative',
-                            paddingLeft: '16px',
-                        }}>
-                            {/* Dot on the line */}
-                            <div className="glow-dot" style={{
-                                position: 'absolute',
-                                left: '-24px',
-                                top: '18px',
-                            }} />
-
-                            {/* Milestone Card */}
-                            <div className="timeline-card-mobile">
-                                <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '15px', marginBottom: '6px' }}>
-                                    {item.year}
-                                </div>
-                                <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '14.5px', marginBottom: '6px' }}>
-                                    {item.title}
-                                </h4>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '12.5px', lineHeight: '1.5' }}>
-                                    {item.desc}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                /* ── Desktop: Horizontal Timeline ── */
-                <div style={{
-                    maxWidth: '1000px',
-                    width: '100%',
-                    height: '320px',
-                    position: 'relative',
-                    zIndex: 10,
-                    marginTop: '20px'
-                }}>
-                    {/* Line */}
-                    <div className="timeline-line" />
-
-                    {/* Dynamic flex container for nodes */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', top: '50%', transform: 'translateY(-50%)', padding: '0 20px' }}>
-                        {timeline.map((item, index) => {
-                            const leftPercent = `${(index / (timeline.length - 1)) * 100}%`;
-                            return (
-                                <div key={item.year} style={{
-                                    position: 'absolute',
-                                    left: leftPercent,
-                                    transform: 'translateX(-50%)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}>
-                                    {/* Alternating top timeline card */}
-                                    {item.position === 'top' && (
-                                        <div
-                                            className="timeline-card-desktop timeline-node-top"
-                                            style={{ '--hover-translate': '-4px' }}
-                                        >
-                                            <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '14px', marginBottom: '4px' }}>
-                                                {item.year}
-                                            </div>
-                                            <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
-                                                {item.title}
-                                            </h4>
-                                            <p style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>
-                                                {item.desc}
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {/* Dot Node */}
-                                    <div className="glow-dot" />
-
-                                    {/* Alternating bottom timeline card */}
-                                    {item.position === 'bottom' && (
-                                        <div
-                                            className="timeline-card-desktop timeline-node-bottom"
-                                            style={{ '--hover-translate': '4px' }}
-                                        >
-                                            <div style={{ color: 'var(--accent-purple-bright)', fontWeight: '800', fontSize: '14px', marginBottom: '4px' }}>
-                                                {item.year}
-                                            </div>
-                                            <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '13px', marginBottom: '4px', lineHeight: '1.3' }}>
-                                                {item.title}
-                                            </h4>
-                                            <p style={{ color: 'var(--text-muted)', fontSize: '11px', lineHeight: '1.4' }}>
-                                                {item.desc}
-                                            </p>
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            )}
+                )}
+            </ScrollReveal>
         </section>
     );
 }

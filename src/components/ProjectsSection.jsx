@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { projects } from '@/data/projects';
 import SpaceDustCanvas from './SpaceDustCanvas';
+import ScrollReveal from './ScrollReveal';
 
 export default function ProjectsSection() {
   const [isMobile, setIsMobile] = useState(false);
@@ -50,19 +51,21 @@ export default function ProjectsSection() {
       <SpaceDustCanvas />
 
       {/* Label */}
-      <div style={{
-        background: 'var(--accent-purple)',
-        color: 'white',
-        padding: '8px 28px',
-        borderRadius: '20px',
-        fontWeight: '600',
-        fontSize: '14px',
-        marginBottom: isMobile ? '36px' : '60px',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        Projects
-      </div>
+      <ScrollReveal animation="fade-down" delay={60}>
+        <div style={{
+          background: 'var(--accent-purple)',
+          color: 'white',
+          padding: '8px 28px',
+          borderRadius: '20px',
+          fontWeight: '600',
+          fontSize: '14px',
+          marginBottom: isMobile ? '36px' : '60px',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          Projects
+        </div>
+      </ScrollReveal>
 
       {/* Dynamic Project Card Styles */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -161,48 +164,55 @@ export default function ProjectsSection() {
         position: 'relative',
         zIndex: 1,
       }}>
-        {projects.map((project) => {
+        {projects.map((project, index) => {
           const firstImage = project.images && project.images[0] ? project.images[0] : '/projects/portfolio-1.jpg';
           return (
-            <Link
+            <ScrollReveal
               key={project.id}
-              href={`/projects/${project.id}`}
-              className="project-card"
+              animation="fade-up"
+              delay={100 + (index % 3) * 100}
+              duration={700}
+              style={{ height: '100%' }}
             >
-              <div className="project-image-container">
-                <Image
-                  src={firstImage}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
-                  className="project-image"
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-              <div className="project-content">
-                <h3 className="project-title">
-                  {project.title}
-                </h3>
-                <p className="project-description">
-                  {project.description}
-                </p>
-                <div className="project-tech-container">
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span key={tech} className="project-tech-badge">
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className="project-tech-badge">
-                      +{project.technologies.length - 3}
-                    </span>
-                  )}
+              <Link
+                href={`/projects/${project.id}`}
+                className="project-card"
+              >
+                <div className="project-image-container">
+                  <Image
+                    src={firstImage}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+                    className="project-image"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
-                <div className="project-link">
-                  Learn More <span>→</span>
+                <div className="project-content">
+                  <h3 className="project-title">
+                    {project.title}
+                  </h3>
+                  <p className="project-description">
+                    {project.description}
+                  </p>
+                  <div className="project-tech-container">
+                    {project.technologies.slice(0, 3).map((tech) => (
+                      <span key={tech} className="project-tech-badge">
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="project-tech-badge">
+                        +{project.technologies.length - 3}
+                      </span>
+                    )}
+                  </div>
+                  <div className="project-link">
+                    Learn More <span>→</span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </ScrollReveal>
           );
         })}
       </div>
