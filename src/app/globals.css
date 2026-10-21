@@ -83,6 +83,107 @@ body {
     linear-gradient(to bottom, rgba(99, 102, 241, 0.07) 1px, transparent 1px);
 }
 
+.skip-home-loading .loading-overlay {
+  display: none;
+}
+
+.project-gallery {
+  margin-bottom: 32px;
+}
+
+.project-gallery-title {
+  margin-bottom: 14px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.project-gallery-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  border-radius: 12px;
+}
+
+.project-gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.project-gallery-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.project-gallery-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.project-gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.project-gallery-arrow,
+.project-gallery-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  cursor: pointer;
+}
+
+.project-gallery-arrow {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 50%;
+}
+
+.project-gallery-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.project-gallery-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.project-gallery-indicator {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  transition: width 180ms ease, background-color 180ms ease;
+}
+
+.project-gallery-indicator.is-active {
+  width: 22px;
+  border-radius: 999px;
+  background: var(--accent-purple-bright);
+}
+
+.project-gallery-arrow:focus-visible,
+.project-gallery-indicator:focus-visible {
+  outline: 2px solid var(--accent-purple-bright);
+  outline-offset: 3px;
+}
+
 /* Smooth & slow fade transition across elements during theme toggle */
 html.theme-transition,
 html.theme-transition body,
@@ -125,5 +226,9 @@ html.theme-transition textarea {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .project-gallery-indicator {
+    transition: none;
   }
 }

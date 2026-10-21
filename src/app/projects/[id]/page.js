@@ -1,11 +1,11 @@
 'use client'
 
 
-import { use } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { projects } from '@/data/projects';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -15,10 +15,38 @@ export default function ProjectDetailPage({ params }) {
     const { id } = use(params);
     const project = projects.find((p) => p.id.toLowerCase() === id?.toLowerCase());
     const isMobile = useIsMobile();
+    const galleryRef = useRef(null);
+    const [activeImage, setActiveImage] = useState(0);
 
     if (!project) {
         notFound();
     }
+
+    const scrollToImage = (index) => {
+        const gallery = galleryRef.current;
+        if (!gallery) return;
+
+        gallery.scrollTo({ left: index * gallery.clientWidth });
+        setActiveImage(index);
+    };
+
+    const handleGalleryScroll = () => {
+        const gallery = galleryRef.current;
+        if (!gallery) return;
+
+        setActiveImage(Math.round(gallery.scrollLeft / gallery.clientWidth));
+    };
+
+    useEffect(() => {
+        if (project.images.length < 2) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const interval = window.setInterval(() => {
+            scrollToImage((activeImage + 1) % project.images.length);
+        }, 4000);
+
+        return () => window.clearInterval(interval);
+    }, [activeImage, project.images.length]);
 
     return (
         <main style={{
@@ -37,6 +65,20 @@ export default function ProjectDetailPage({ params }) {
                     {/* Back link */}
                     <Link
                         href="/#projects"
+                        onClick={(event) => {
+                            if (
+                                event.button !== 0 ||
+                                event.metaKey ||
+                                event.ctrlKey ||
+                                event.shiftKey ||
+                                event.altKey
+                            ) {
+                                return;
+                            }
+
+                            sessionStorage.setItem('skip-home-loading', 'true');
+                            document.documentElement.classList.add('skip-home-loading');
+                        }}
                         style={{
                             display: 'inline-flex',
                             alignItems: 'center',
@@ -56,37 +98,74 @@ export default function ProjectDetailPage({ params }) {
                     </h1>
                 </ScrollReveal>
 
-                {/* Images */}
+                {/* Image carousel */}
                 <ScrollReveal animation="fade-up" delay={120}>
-                    <div style={{
-                        display: 'flex',
-                        gap: '16px',
-                        marginBottom: '32px',
-                        flexWrap: 'wrap',
-                    }}>
-                        {project.images.map((img, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    position: 'relative',
-                                    width: '100%',
-                                    maxWidth: '420px',
-                                    aspectRatio: '16 / 10',
-                                    borderRadius: '12px',
-                                    overflow: 'hidden',
-                                    border: '1px solid var(--border-color)',
-                                }}
-                            >
-                                <Image
-                                    src={img}
-                                    alt={`${project.title} screenshot ${i + 1}`}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 420px"
-                                    style={{ objectFit: 'cover' }}
-                                />
+                    <section
+                        className="project-gallery"
+                        aria-label={`${project.title} image gallery`}
+                        aria-roledescription="carousel"
+                    >
+                        <h2 className="project-gallery-title">Gallery</h2>
+                        <div
+                            className="project-gallery-track"
+                            ref={galleryRef}
+                            onScroll={handleGalleryScroll}
+                        >
+                            {project.images.map((img, i) => (
+                                <div
+                                    className="project-gallery-slide"
+                                    key={img}
+                                    role="group"
+                                    aria-roledescription="slide"
+                                    aria-label={`${i + 1} of ${project.images.length}`}
+                                >
+                                    <div className="project-gallery-image">
+                                        <Image
+                                            src={img}
+                                            alt={`${project.title} screenshot ${i + 1}`}
+                                            fill
+                                            sizes="(max-width: 768px) calc(100vw - 32px), 900px"
+                                            style={{ objectFit: 'cover' }}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        {project.images.length > 1 && (
+                            <div className="project-gallery-controls">
+                                <button
+                                    type="button"
+                                    className="project-gallery-arrow"
+                                    onClick={() => scrollToImage(Math.max(0, activeImage - 1))}
+                                    disabled={activeImage === 0}
+                                    aria-label="Show previous image"
+                                >
+                                    <ArrowLeft size={18} />
+                                </button>
+                                <div className="project-gallery-indicators" aria-label="Choose an image">
+                                    {project.images.map((img, i) => (
+                                        <button
+                                            key={img}
+                                            type="button"
+                                            className={`project-gallery-indicator${activeImage === i ? ' is-active' : ''}`}
+                                            onClick={() => scrollToImage(i)}
+                                            aria-label={`Show image ${i + 1}`}
+                                            aria-current={activeImage === i ? 'true' : undefined}
+                                        />
+                                    ))}
+                                </div>
+                                <button
+                                    type="button"
+                                    className="project-gallery-arrow"
+                                    onClick={() => scrollToImage(Math.min(project.images.length - 1, activeImage + 1))}
+                                    disabled={activeImage === project.images.length - 1}
+                                    aria-label="Show next image"
+                                >
+                                    <ArrowRight size={18} />
+                                </button>
                             </div>
-                        ))}
-                    </div>
+                        )}
+                    </section>
                 </ScrollReveal>
 
                 {/* Description */}
@@ -151,5 +230,5 @@ export default function ProjectDetailPage({ params }) {
 
             </div>
     </main >
-  );
+    );
 }
